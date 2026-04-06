@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OG Build — Market Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #c17f2f; --accent-hover: #a66b24;
+  --accent-tint: rgba(193,127,47,0.08); --accent-tint-strong: rgba(193,127,47,0.15);
+  --bg: #f6f5f2; --bg-card: #fff; --bg-dark: #1a1d23;
+  --bg-muted: #edebe7; --border: #e2dfda; --border-light: #eae8e3;
+  --text: #1a1d23; --text-secondary: #6b6560; --text-muted: #9c968e;
+  --red: #c4382e; --yellow: #d49a1f; --green: #2d8a52;
+  --red-bg: rgba(196,56,46,0.06); --green-bg: rgba(45,138,82,0.06);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); }
+
+/* Hero */
+.hero { background:var(--bg-dark); padding:64px 24px 56px; text-align:center; }
+.hero .logo { color:var(--accent); font-size:24px; font-weight:700; letter-spacing:1px; margin-bottom:24px; }
+.hero .logo .dim { color:#6b7280; font-weight:400; }
+.hero h1 { color:#fff; font-size:36px; font-weight:700; line-height:1.2; max-width:700px; margin:0 auto 12px; }
+.hero p { color:#9ca3af; font-size:16px; max-width:540px; margin:0 auto; line-height:1.6; }
+
+.container { max-width:900px; margin:0 auto; padding:0 24px; }
+
+/* Section headers */
+.section { padding:48px 0; }
+.section + .section { border-top:1px solid var(--border); }
+.section-label { font-size:11px; font-weight:600; color:var(--accent); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; }
+.section h2 { font-size:24px; font-weight:700; margin-bottom:6px; }
+.section .subtitle { font-size:14px; color:var(--text-secondary); margin-bottom:32px; line-height:1.6; }
+
+/* Stat cards */
+.stat-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:32px; }
+.stat-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:20px; }
+.stat-card .number { font-size:32px; font-weight:700; font-family:'DM Mono',monospace; line-height:1; margin-bottom:4px; }
+.stat-card .number.accent { color:var(--accent); }
+.stat-card .number.red { color:var(--red); }
+.stat-card .number.green { color:var(--green); }
+.stat-card .label { font-size:13px; color:var(--text-secondary); line-height:1.4; }
+.stat-card .source { font-size:10px; color:var(--text-muted); margin-top:8px; font-family:'DM Mono',monospace; }
+
+/* Pain point cards */
+.pain-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+@media (max-width:640px) { .pain-grid { grid-template-columns:1fr; } }
+.pain-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:20px; border-left:3px solid var(--red); }
+.pain-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+.pain-card p { font-size:13px; color:var(--text-secondary); line-height:1.5; }
+.pain-card .stat { font-size:13px; font-weight:600; color:var(--red); margin-top:8px; font-family:'DM Mono',monospace; }
+
+/* Value cards */
+.value-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:20px; border-left:3px solid var(--green); }
+.value-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+.value-card p { font-size:13px; color:var(--text-secondary); line-height:1.5; }
+.value-card .outcome { font-size:13px; font-weight:600; color:var(--green); margin-top:8px; }
+
+/* Competitive landscape */
+.comp-table { width:100%; border-collapse:collapse; font-size:13px; background:var(--bg-card); border-radius:12px; overflow:hidden; border:1px solid var(--border-light); }
+.comp-table th { text-align:left; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding:12px 16px; background:var(--bg-muted); border-bottom:1px solid var(--border); }
+.comp-table td { padding:12px 16px; border-bottom:1px solid var(--border-light); vertical-align:top; }
+.comp-table tr:last-child td { border-bottom:none; }
+.comp-table .yes { color:var(--green); font-weight:600; }
+.comp-table .no { color:var(--red); font-weight:600; }
+.comp-table .partial { color:var(--yellow); font-weight:600; }
+.comp-table .highlight-row { background:var(--accent-tint); }
+.comp-table .highlight-row td { font-weight:500; }
+
+/* Opportunity box */
+.opportunity { background:var(--bg-dark); border-radius:16px; padding:32px; margin:32px 0; }
+.opportunity h3 { color:var(--accent); font-size:18px; font-weight:700; margin-bottom:12px; }
+.opportunity p { color:#d1d5db; font-size:14px; line-height:1.7; }
+.opportunity .highlight { color:#fff; font-weight:600; }
+
+/* Bottom line */
+.bottom { background:var(--bg-dark); padding:48px 24px; text-align:center; margin-top:48px; }
+.bottom h2 { color:#fff; font-size:28px; font-weight:700; max-width:600px; margin:0 auto 16px; line-height:1.3; }
+.bottom p { color:#9ca3af; font-size:15px; max-width:500px; margin:0 auto; line-height:1.6; }
+.bottom .cta { display:inline-block; margin-top:24px; background:var(--accent); color:#fff; padding:12px 28px; border-radius:8px; font-size:15px; font-weight:600; text-decoration:none; }
+
+/* Quote blocks */
+.quote { background:var(--bg-muted); border-radius:10px; padding:20px 24px; margin:24px 0; font-size:14px; color:var(--text-secondary); line-height:1.6; font-style:italic; border-left:3px solid var(--accent); }
+.quote .attr { font-style:normal; font-size:12px; color:var(--text-muted); margin-top:8px; font-weight:600; }
+
+/* TAM diagram */
+.tam { display:flex; flex-direction:column; align-items:center; gap:0; margin:32px 0; }
+.tam-ring { border-radius:50%; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; }
+.tam-ring.outer { width:320px; height:320px; background:rgba(193,127,47,0.06); border:2px solid rgba(193,127,47,0.15); }
+.tam-ring.mid { width:220px; height:220px; background:rgba(193,127,47,0.1); border:2px solid rgba(193,127,47,0.25); }
+.tam-ring.inner { width:130px; height:130px; background:var(--accent-tint-strong); border:2px solid var(--accent); }
+.tam-label { font-size:10px; font-weight:600; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; }
+.tam-value { font-size:20px; font-weight:700; font-family:'DM Mono',monospace; color:var(--accent); }
+.tam-desc { font-size:11px; color:var(--text-secondary); max-width:160px; }
+.tam-outer-label { position:relative; top:-10px; }
+
+/* Footer */
+.footer { padding:24px; text-align:center; font-size:11px; color:var(--text-muted); }
+.footer a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">OG<span class="dim"> Build</span></div>
+  <h1>The Construction Coordination Layer is Broken</h1>
+  <p>A $2.2 trillion industry runs on phone calls, text messages, and spreadsheets. OG Build fixes the connection between general contractors and subcontractors.</p>
+</div>
+
+<div class="container">
+
+<!-- THE MARKET -->
+<div class="section">
+  <div class="section-label">The Market</div>
+  <h2>Construction is massive and massively underdigitized</h2>
+  <div class="subtitle">The U.S. construction industry is one of the largest sectors in the economy, yet ranks among the lowest in technology adoption and productivity growth.</div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="number accent">$2.2T</div><div class="label">U.S. construction market size (2025)</div><div class="source"><a href="https://www.marketdataforecast.com/market-reports/United-states-construction-market" target="_blank" style="color:var(--accent);text-decoration:none">Market Data Forecast →</a></div></div>
+    <div class="stat-card"><div class="number accent">$11.6B</div><div class="label">Construction management software market (2026)</div><div class="source"><a href="https://www.mordorintelligence.com/industry-reports/construction-management-software-market" target="_blank" style="color:var(--accent);text-decoration:none">Mordor Intelligence →</a></div></div>
+    <div class="stat-card"><div class="number accent">9.7%</div><div class="label">Software market CAGR through 2034</div><div class="source"><a href="https://www.fortunebusinessinsights.com/construction-software-market-110155" target="_blank" style="color:var(--accent);text-decoration:none">Fortune Business Insights →</a></div></div>
+    <div class="stat-card"><div class="number accent">3.9M</div><div class="label">Construction firms in the U.S., 90%+ are small businesses</div><div class="source"><a href="https://www.census.gov/programs-surveys/susb.html" target="_blank" style="color:var(--accent);text-decoration:none">U.S. Census Bureau →</a></div></div>
+  </div>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:12px;padding:20px;margin-bottom:24px">
+    <h4 style="font-size:14px;font-weight:600;margin-bottom:8px">Reading the Market Sizing</h4>
+    <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px"><strong style="color:var(--accent)">TAM (Total Addressable Market)</strong> is the entire construction management software market. If every contractor in the world bought software, this is the total spend.</p>
+    <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px"><strong style="color:var(--accent)">SAM (Serviceable Addressable Market)</strong> is the slice we can actually reach: small and mid-size contractors (5-50 employees) in the U.S. who need project management tools but find enterprise solutions too expensive or complex.</p>
+    <p style="font-size:13px;color:var(--text-secondary);line-height:1.6"><strong style="color:var(--accent)">SOM (Serviceable Obtainable Market)</strong> is what we can realistically capture in the first few years: the GC-to-sub coordination niche where no two-sided solution exists today. This is our starting point.</p>
+  </div>
+
+  <div class="tam">
+    <div class="tam-ring outer">
+      <div class="tam-outer-label">
+        <div class="tam-label">TAM</div>
+        <div class="tam-value">$11.6B</div>
+        <div class="tam-desc">All construction management software</div>
+      </div>
+      <div class="tam-ring mid">
+        <div class="tam-label">SAM</div>
+        <div class="tam-value">$3.2B</div>
+        <div class="tam-desc">SMB contractors (5-50 employees)</div>
+        <div class="tam-ring inner">
+          <div class="tam-label">SOM</div>
+          <div class="tam-value">$180M</div>
+          <div class="tam-desc" style="max-width:100px;font-size:10px">GC-sub coordination</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THE PAIN -->
+<div class="section">
+  <div class="section-label">The Problem</div>
+  <h2>$177 billion lost to inefficiency every year</h2>
+  <div class="subtitle">Construction professionals spend 35% of their time on non-productive activities: searching for data, resolving conflicts, and chasing down updates. The root cause is fragmented communication between GCs and subcontractors.</div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="number red">$177B</div><div class="label">Annual cost of inefficiency in U.S. construction</div><div class="source"><a href="https://www.propelleraero.com/blog/10-construction-project-cost-overrun-statistics-you-need-to-hear/" target="_blank" style="color:var(--accent);text-decoration:none">FMI / PlanGrid Research →</a></div></div>
+    <div class="stat-card"><div class="number red">$31B</div><div class="label">Rework caused by poor communication annually</div><div class="source"><a href="https://www.bmdmaterials.com/bmdblog/the-hidden-cost-of-outdated-communication-in-construction" target="_blank" style="color:var(--accent);text-decoration:none">FMI Research →</a></div></div>
+    <div class="stat-card"><div class="number red">14 hrs</div><div class="label">Per worker per week spent on non-productive tasks</div><div class="source"><a href="https://www.propelleraero.com/blog/10-construction-project-cost-overrun-statistics-you-need-to-hear/" target="_blank" style="color:var(--accent);text-decoration:none">PlanGrid / FMI →</a></div></div>
+    <div class="stat-card"><div class="number red">70%</div><div class="label">Of construction software implementations fail</div><div class="source"><a href="https://blog.constructiononline.com/construction-management-software-mistakes-investing-without-implementation" target="_blank" style="color:var(--accent);text-decoration:none">ConstructionOnline →</a></div></div>
+  </div>
+
+  <div class="pain-grid">
+    <div class="pain-card">
+      <h4>Communication Chaos</h4>
+      <p>GC-to-sub coordination happens across scattered text threads, phone calls, and emails. Critical updates get lost. Nobody has the full picture.</p>
+      <div class="stat"><a href="https://kyro.ai/blog/effect-of-poor-communication-in-construction-projects" target="_blank" style="color:var(--red);text-decoration:underline">77% of projects suffer significant delays from poor communication</a></div>
+    </div>
+    <div class="pain-card">
+      <h4>Cost Overruns Are the Norm</h4>
+      <p>Projects consistently exceed budget because scheduling slips aren't caught early. By the time the GC knows a sub is behind, it's already a cascading delay.</p>
+      <div class="stat"><a href="https://www.propelleraero.com/blog/10-construction-project-cost-overrun-statistics-you-need-to-hear/" target="_blank" style="color:var(--red);text-decoration:underline">98% of megaprojects go over budget (McKinsey)</a></div>
+    </div>
+    <div class="pain-card">
+      <h4>Rework From Miscommunication</h4>
+      <p>52% of all rework in construction is caused by poor communication and data management. Subs build the wrong thing because they had outdated information.</p>
+      <div class="stat"><a href="https://www.bmdmaterials.com/bmdblog/the-hidden-cost-of-outdated-communication-in-construction" target="_blank" style="color:var(--red);text-decoration:underline">$31.3B in annual rework costs in the U.S.</a></div>
+    </div>
+    <div class="pain-card">
+      <h4>Software Adoption Failure</h4>
+      <p>Existing tools are built for enterprise GCs, not mid-size contractors. They're too expensive, too complex, and field crews refuse to use them. Contractors buy software, struggle for 6 months, and go back to spreadsheets.</p>
+      <div class="stat"><a href="https://thedronelifenj.com/technology-adoption-construction/" target="_blank" style="color:var(--red);text-decoration:underline">70% of contractors have no technology roadmap</a></div>
+    </div>
+    <div class="pain-card">
+      <h4>Subs Are Second-Class Citizens</h4>
+      <p>Every existing platform is GC-centric. The GC buys the tool, invites the sub, and the sub gets zero independent value. They have no reason to log in, so they don't.</p>
+      <div class="stat"><a href="https://visibuild.com/news/digital-adoption-construction-2024/" target="_blank" style="color:var(--red);text-decoration:underline">Subs use 37%+ fewer digital tools than GCs</a></div>
+    </div>
+    <div class="pain-card">
+      <h4>Data Locked in Silos</h4>
+      <p>37% of companies use 4+ unintegrated applications per project. Project data lives in spreadsheets, text threads, email chains, and paper forms across devices.</p>
+      <div class="stat"><a href="https://www.propelleraero.com/blog/10-construction-project-cost-overrun-statistics-you-need-to-hear/" target="_blank" style="color:var(--red);text-decoration:underline">5.5 hours/week spent just searching for project data</a></div>
+    </div>
+  </div>
+
+  <div class="quote">
+    "Construction is the only major industry where productivity has actually declined over the past 20 years. The core problem isn't a lack of technology. It's that existing technology ignores how GCs and subs actually work together."
+    <div class="attr">Industry consensus, McKinsey Global Institute</div>
+  </div>
+</div>
+
+<!-- THE SOLUTION -->
+<div class="section">
+  <div class="section-label">The Solution</div>
+  <h2>OG Build: the first two-sided construction ops platform</h2>
+  <div class="subtitle">Unlike every competitor, OG Build gives both GCs and subcontractors independent value. GCs get project intelligence. Subs get a unified view of all their work. The shared workspace replaces text threads.</div>
+
+  <div class="pain-grid" style="margin-bottom:32px">
+    <div class="value-card">
+      <h4>Shared Project Views</h4>
+      <p>GCs and subs see the same task list, status updates, and timeline. No more "did you get my text?" Both sides have the truth.</p>
+      <div class="outcome">Replaces: scattered text threads and phone calls</div>
+    </div>
+    <div class="value-card">
+      <h4>Zero-Friction Sub Onboarding</h4>
+      <p>Subs get an SMS link, tap it, and see their tasks. No app download, no account creation, no training. 2-tap status updates from the job site.</p>
+      <div class="outcome">Solves: the 70% software adoption failure rate</div>
+    </div>
+    <div class="value-card">
+      <h4>Project Health at a Glance</h4>
+      <p>GC dashboard shows red/yellow/green health signals for every project. Overdue tasks, unresponsive subs, and schedule risks surface before they cascade.</p>
+      <div class="outcome">Prevents: the cascading delays that cause cost overruns</div>
+    </div>
+    <div class="value-card">
+      <h4>Cross-GC View for Subs</h4>
+      <p>When a sub works for multiple GCs, they see ALL their tasks in one list. This is the independent value no competitor offers. It's why subs actually use the platform.</p>
+      <div class="outcome">Unique: no competitor gives subs this capability</div>
+    </div>
+    <div class="value-card">
+      <h4>Estimates to Projects in One Click</h4>
+      <p>GC builds an estimate from templates, sends it to the customer online. Customer approves. One click converts it to a project with tasks and sub assignments.</p>
+      <div class="outcome">Eliminates: re-entering data from estimate to project</div>
+    </div>
+    <div class="value-card">
+      <h4>Templates for Speed</h4>
+      <p>System templates for common project types (kitchen remodel, bathroom addition, new construction). GCs customize with their own pricing and workflow. Every new project starts 80% done.</p>
+      <div class="outcome">Saves: 30+ minutes per estimate setup</div>
+    </div>
+  </div>
+
+  <div class="opportunity">
+    <h3>The Marketplace Flywheel</h3>
+    <p>OG Build starts as an operations platform. But every GC and sub using it creates <span class="highlight">operational data</span>: who works well together, who delivers on time, which trades are in demand. Over time, this becomes the <span class="highlight">construction coordination marketplace</span>: GCs find reliable subs, subs find steady work. The marketplace doesn't need to be built. It <span class="highlight">emerges from usage</span>.</p>
+    <p style="margin-top:12px">Existing marketplaces (PlanHub, BuildingConnected) handle the bidding phase only. They have weak lock-in because the relationship only exists during the bid. OG Build owns the <span class="highlight">execution phase</span>, where both sides depend on the platform daily for months. That's 10x stickier.</p>
+  </div>
+</div>
+
+<!-- COMPETITIVE LANDSCAPE -->
+<div class="section">
+  <div class="section-label">Competitive Landscape</div>
+  <h2>Everybody builds for the GC. Nobody builds for both.</h2>
+  <div class="subtitle">The market is crowded with GC-centric tools. None of them solve the coordination problem because they only serve one side of the relationship.</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr><th>Platform</th><th>Target</th><th>GC Ops</th><th>Sub Value</th><th>Two-Sided</th><th>SMB Price</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Procore</strong></td><td>Enterprise GC</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td>$10K+/yr</td></tr>
+      <tr><td><strong>Buildertrend</strong></td><td>Home builders</td><td class="yes">Yes</td><td class="no">No</td><td class="no">$500+/mo</td></tr>
+      <tr><td><strong>Contractor Foreman</strong></td><td>Small GCs</td><td class="yes">Yes</td><td class="no">No</td><td class="no">$49+/mo</td></tr>
+      <tr><td><strong>JobTread</strong></td><td>Small GCs</td><td class="yes">Yes</td><td class="partial">Partial</td><td class="no">No</td><td>$149+/mo</td></tr>
+      <tr><td><strong>PlanHub</strong></td><td>Bidding marketplace</td><td class="no">No</td><td class="partial">Bid only</td><td class="partial">Bid only</td><td>GC pays</td></tr>
+      <tr><td><strong>BuildingConnected</strong></td><td>Bid management</td><td class="partial">Partial</td><td class="partial">Bid only</td><td class="partial">Bid only</td><td>Autodesk tier</td></tr>
+      <tr class="highlight-row"><td><strong>OG Build</strong></td><td>GC + Sub</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td>TBD</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quote" style="margin-top:24px">
+    Existing two-sided platforms in construction (PlanHub, BuildingConnected) are bidding-focused, pre-project. Nobody owns the operational coordination layer during project execution. Starting with ops and growing into marketplace inverts the PlanHub approach and creates stronger lock-in.
+    <div class="attr">OG Build strategic thesis</div>
+  </div>
+</div>
+
+<!-- WHY NOW -->
+<div class="section">
+  <div class="section-label">Why Now</div>
+  <h2>Three tailwinds make this the right moment</h2>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number green">62%</div>
+      <div class="label"><strong>Cloud adoption accelerating.</strong> Cloud solutions lead with 62% market share, growing at 12% CAGR. Contractors are finally moving off desktop tools.</div>
+      <div class="source"><a href="https://www.mordorintelligence.com/industry-reports/construction-management-software-market" target="_blank" style="color:var(--accent);text-decoration:none">Mordor Intelligence, 2025 →</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="number green">90%</div>
+      <div class="label"><strong>Smartphone ubiquity.</strong> 90%+ of construction workers carry smartphones. The hardware is in every pocket on every job site. The software just needs to meet them there.</div>
+      <div class="source"><a href="https://iotmktg.com/accelerating-technology-adoption-in-the-u-s-construction-industry-key-drivers-emerging-solutions-and-implementation-strategies-for-2025/" target="_blank" style="color:var(--accent);text-decoration:none">NCCER / Industry surveys →</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="number green">20x</div>
+      <div class="label"><strong>AI compresses build cost.</strong> A product that would have taken a 10-person team 6 months can now be built by 1-2 engineers in weeks. The barrier to entry has collapsed.</div>
+      <div class="source"><a href="https://www.youtube.com/watch?v=rWUWfj_PqmM" target="_blank" style="color:var(--accent);text-decoration:none">YC / Garry Tan →</a></div>
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /container -->
+
+<div class="bottom">
+  <h2>The industry standard ops platform doesn't exist yet. We're building it.</h2>
+  <p>OG Build is the coordination layer between general contractors and subcontractors. Two-sided. Mobile-first. Built for how construction actually works.</p>
+  <a href="https://ktnrigak.github.io/og-build-preview/" class="cta">View Product Preview →</a>
+</div>
+
+<div class="footer">
+  OG Build · Market Analysis · April 2026<br>
+  Sources: Mordor Intelligence, Fortune Business Insights, McKinsey, FMI/PlanGrid, Market Data Forecast, Deloitte, ConstructionOnline
+</div>
+
+</body>
+</html>
