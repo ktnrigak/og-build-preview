@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OG Build — All Screens Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #c17f2f; --accent-hover: #a66b24;
+  --accent-tint: rgba(193,127,47,0.08); --accent-tint-strong: rgba(193,127,47,0.15);
+  --bg: #f6f5f2; --bg-card: #fff; --bg-sidebar: #1a1d23;
+  --bg-sidebar-hover: #262a33; --bg-sidebar-active: rgba(193,127,47,0.15);
+  --bg-muted: #edebe7; --border: #e2dfda; --border-light: #eae8e3;
+  --text: #1a1d23; --text-secondary: #6b6560; --text-muted: #9c968e;
+  --text-sidebar: #9ca3af; --text-sidebar-active: #c17f2f;
+  --red: #c4382e; --yellow: #d49a1f; --green: #2d8a52;
+  --red-bg: rgba(196,56,46,0.08); --yellow-bg: rgba(212,154,31,0.08); --green-bg: rgba(45,138,82,0.08);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#e2dfda; color:var(--text); }
+
+nav.topnav { position:sticky; top:0; z-index:100; background:var(--bg-sidebar); padding:10px 20px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+nav.topnav h1 { color:var(--accent); font-size:13px; font-weight:700; letter-spacing:0.5px; margin-right:12px; }
+nav.topnav a { color:var(--text-sidebar); text-decoration:none; font-size:12px; padding:5px 10px; border-radius:5px; }
+nav.topnav a:hover { background:var(--bg-sidebar-hover); color:#fff; }
+
+.section { padding:32px 24px; max-width:100%; }
+.section-label { font-size:10px; font-weight:600; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+.section-title { font-size:18px; font-weight:700; margin-bottom:2px; }
+.section-desc { font-size:13px; color:var(--text-secondary); margin-bottom:16px; }
+
+.callouts { background:var(--bg-card); border:1px solid var(--border-light); border-radius:10px; padding:16px 20px; margin-bottom:20px; }
+.callouts h4 { font-size:12px; font-weight:600; color:var(--accent); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
+.callouts ul { list-style:none; padding:0; }
+.callouts li { font-size:13px; color:var(--text-secondary); padding:4px 0; padding-left:16px; position:relative; }
+.callouts li::before { content:"•"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+/* Shared frame styles */
+.desktop-frame { display:flex; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-lg); height:520px; background:var(--bg); }
+.mobile-frame { width:375px; height:700px; border-radius:24px; overflow:hidden; box-shadow:var(--shadow-lg); background:var(--bg); border:8px solid #1a1d23; margin:0 auto; position:relative; }
+.mobile-status { height:44px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; }
+.mobile-content { padding:0 20px 80px; overflow-y:auto; height:calc(100% - 44px); }
+
+.sidebar { width:220px; background:var(--bg-sidebar); padding:16px 0; flex-shrink:0; display:flex; flex-direction:column; }
+.sidebar-logo { padding:0 16px 16px; border-bottom:1px solid #2a2e38; margin-bottom:10px; }
+.sidebar-logo span { color:var(--accent); font-weight:700; font-size:15px; }
+.sidebar-logo .dim { color:var(--text-sidebar); font-weight:400; }
+.sidebar-item { display:flex; align-items:center; gap:8px; padding:7px 12px; margin:0 8px; border-radius:6px; font-size:12px; color:var(--text-sidebar); }
+.sidebar-item:hover { background:var(--bg-sidebar-hover); }
+.sidebar-item.active { background:var(--bg-sidebar-active); color:var(--text-sidebar-active); font-weight:500; }
+.sidebar-item .dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+.main { flex:1; padding:20px 28px; overflow-y:auto; }
+.main h2 { font-size:18px; font-weight:700; margin-bottom:4px; }
+.main .sub-h { font-size:12px; color:var(--text-secondary); margin-bottom:20px; }
+
+.btn { padding:8px 16px; border-radius:6px; font-size:12px; font-weight:600; font-family:inherit; cursor:pointer; border:none; }
+.btn-primary { background:var(--accent); color:#fff; }
+.btn-secondary { background:var(--bg-muted); color:var(--text); }
+.btn-ghost { background:transparent; color:var(--text-secondary); border:1px solid var(--border); }
+
+.card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:10px; padding:14px; margin-bottom:10px; }
+.card h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+.card p { font-size:12px; color:var(--text-secondary); }
+
+.health-tag { display:inline-flex; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:500; }
+.health-tag.red { background:var(--red-bg); color:var(--red); }
+.health-tag.yellow { background:var(--yellow-bg); color:var(--yellow); }
+.health-tag.green { background:var(--green-bg); color:var(--green); }
+
+.progress { height:4px; background:var(--bg-muted); border-radius:2px; margin-top:10px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:2px; }
+
+.input { width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit; background:#fff; }
+.input:focus { outline:2px solid var(--accent); outline-offset:-1px; }
+.input::placeholder { color:var(--text-muted); }
+
+.label { font-size:12px; font-weight:500; color:var(--text-secondary); margin-bottom:4px; display:block; }
+
+.task-row { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:6px; }
+.task-row:hover { background:var(--bg-muted); }
+.checkbox { width:16px; height:16px; border:2px solid var(--border); border-radius:3px; flex-shrink:0; }
+.checkbox.checked { background:var(--green); border-color:var(--green); }
+.task-info { flex:1; }
+.task-info .name { font-size:13px; font-weight:500; }
+.task-info .sub-text { font-size:11px; color:var(--text-muted); }
+.task-due { font-size:11px; font-family:'DM Mono',monospace; color:var(--text-muted); }
+.task-due.overdue { color:var(--red); font-weight:500; }
+.task-due.soon { color:var(--yellow); }
+
+.tab-bar { position:absolute; bottom:0; left:0; right:0; background:var(--bg-card); border-top:1px solid var(--border); display:flex; padding:8px 0 20px; }
+.tab { flex:1; text-align:center; font-size:10px; color:var(--text-muted); padding-top:4px; }
+.tab.active { color:var(--accent); font-weight:600; }
+.tab-icon { font-size:18px; margin-bottom:2px; display:block; }
+
+/* Onboarding */
+.onboarding-frame { width:480px; margin:0 auto; background:var(--bg-card); border-radius:16px; box-shadow:var(--shadow-lg); overflow:hidden; }
+.onboarding-header { background:var(--bg-sidebar); padding:24px; text-align:center; }
+.onboarding-header .logo { color:var(--accent); font-size:20px; font-weight:700; }
+.onboarding-header .logo .dim { color:var(--text-sidebar); font-weight:400; }
+.onboarding-header p { color:var(--text-sidebar); font-size:13px; margin-top:4px; }
+.onboarding-body { padding:28px; }
+.step-indicator { display:flex; gap:8px; margin-bottom:24px; }
+.step-dot { flex:1; height:3px; border-radius:2px; background:var(--bg-muted); }
+.step-dot.active { background:var(--accent); }
+.step-dot.done { background:var(--green); }
+
+/* Task detail */
+.task-detail-panel { width:400px; background:var(--bg-card); border-left:1px solid var(--border-light); padding:20px; overflow-y:auto; }
+.task-detail-panel h3 { font-size:16px; font-weight:700; margin-bottom:4px; }
+.task-detail-panel .meta { font-size:12px; color:var(--text-secondary); margin-bottom:16px; }
+.status-select { display:flex; gap:6px; margin-bottom:16px; }
+.status-option { padding:6px 12px; border-radius:6px; font-size:12px; border:1px solid var(--border); background:var(--bg); cursor:pointer; font-family:inherit; }
+.status-option.active { border-color:var(--accent); background:var(--accent-tint); color:var(--accent); font-weight:500; }
+.attachment-grid { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.attachment-thumb { width:72px; height:72px; border-radius:8px; background:var(--bg-muted); border:1px solid var(--border-light); display:flex; align-items:center; justify-content:center; font-size:24px; }
+.attachment-add { border:2px dashed var(--border); color:var(--text-muted); font-size:20px; cursor:pointer; }
+.comment-thread { border-top:1px solid var(--border-light); padding-top:16px; }
+.comment { margin-bottom:14px; }
+.comment-header { display:flex; justify-content:space-between; margin-bottom:4px; }
+.comment-author { font-size:12px; font-weight:600; }
+.comment-time { font-size:11px; color:var(--text-muted); font-family:'DM Mono',monospace; }
+.comment-body { font-size:13px; color:var(--text-secondary); }
+.comment-input { display:flex; gap:8px; margin-top:12px; }
+.comment-input input { flex:1; }
+
+/* SMS preview */
+.sms-frame { width:375px; margin:0 auto; background:#f2f2f7; border-radius:24px; border:8px solid #1a1d23; overflow:hidden; padding:20px; }
+.sms-bubble { max-width:260px; padding:10px 14px; border-radius:16px; font-size:14px; line-height:1.4; margin-bottom:12px; }
+.sms-incoming { background:#e9e9eb; color:#1a1d23; border-bottom-left-radius:4px; }
+.sms-time { font-size:10px; color:var(--text-muted); text-align:center; margin:12px 0; }
+.sms-link { color:#007aff; text-decoration:underline; }
+
+/* Notifications settings */
+.setting-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border-light); }
+.setting-row:last-child { border-bottom:none; }
+.setting-info h4 { font-size:13px; font-weight:500; }
+.setting-info p { font-size:12px; color:var(--text-muted); }
+.toggle { width:44px; height:24px; border-radius:12px; background:var(--green); position:relative; cursor:pointer; }
+.toggle.off { background:var(--bg-muted); }
+.toggle::after { content:''; width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:2px; right:2px; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.toggle.off::after { right:auto; left:2px; }
+
+/* Invite flow */
+.invite-preview { background:var(--bg-muted); border-radius:8px; padding:14px; margin-top:16px; }
+.invite-preview .preview-label { font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.invite-preview .preview-text { font-size:13px; color:var(--text-secondary); line-height:1.5; }
+
+/* Phase 2 styles */
+.tag { display:inline-flex; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:500; }
+.tag-draft { background:var(--bg-muted); color:var(--text-muted); }
+.tag-sent { background:rgba(59,125,216,0.08); color:#3b7dd8; }
+.tag-approved { background:var(--green-bg); color:var(--green); }
+.tag-declined { background:var(--red-bg); color:var(--red); }
+.tag-converted { background:var(--accent-tint); color:var(--accent); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; padding:8px 12px; border-bottom:1px solid var(--border); }
+td { padding:10px 12px; border-bottom:1px solid var(--border-light); }
+td.mono { font-family:'DM Mono',monospace; font-size:12px; }
+tr:hover td { background:var(--bg-muted); }
+.template-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:10px; padding:16px; cursor:pointer; transition:all 0.15s; }
+.template-card:hover { box-shadow:var(--shadow-sm); border-color:var(--border); }
+.template-card .badge { font-size:10px; font-weight:600; padding:2px 6px; border-radius:3px; text-transform:uppercase; letter-spacing:0.5px; }
+.template-card .badge-system { background:rgba(59,125,216,0.08); color:#3b7dd8; }
+.template-card .badge-custom { background:var(--accent-tint); color:var(--accent); }
+.estimate-public { max-width:640px; margin:0 auto; background:var(--bg-card); border-radius:16px; box-shadow:var(--shadow-lg); overflow:hidden; }
+.estimate-header-public { background:var(--bg-sidebar); padding:24px; }
+.estimate-header-public .company { color:var(--accent); font-size:13px; font-weight:600; letter-spacing:0.5px; }
+.estimate-header-public h2 { font-size:20px; font-weight:700; color:#fff; margin:4px 0; }
+.estimate-header-public p { font-size:13px; color:var(--text-sidebar); }
+.estimate-body { padding:24px; }
+.estimate-total { display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-top:2px solid var(--border); margin-top:16px; }
+.estimate-total .amount { font-size:24px; font-weight:700; font-family:'DM Mono',monospace; }
+.estimate-actions { display:flex; gap:10px; padding:0 24px 24px; }
+.estimate-actions .btn { flex:1; justify-content:center; padding:12px; font-size:14px; }
+.btn-success { background:var(--green); color:#fff; }
+.phase-divider { padding:32px 24px 8px; }
+.phase-divider h2 { font-size:14px; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase; border-bottom:2px solid var(--accent); padding-bottom:8px; display:inline-block; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+<h1>OG BUILD — COMPLETE PREVIEW</h1>
+<a href="#phase1" style="color:var(--accent);font-weight:600;font-size:11px;letter-spacing:0.5px">PHASE 1</a>
+<a href="#s1">Dashboard</a>
+<a href="#s2">Sub Landing</a>
+<a href="#s3">Task View</a>
+<a href="#s4">Onboarding</a>
+<a href="#s5">Task Detail</a>
+<a href="#s6">Sub Home</a>
+<a href="#s7">SMS</a>
+<a href="#s8">Notifications</a>
+<a href="#s9">Invite</a>
+<span style="color:#2a2e38;margin:0 4px">|</span>
+<a href="#phase2" style="color:var(--accent);font-weight:600;font-size:11px;letter-spacing:0.5px">PHASE 2</a>
+<a href="#s10">Customers</a>
+<a href="#s11">Estimate Builder</a>
+<a href="#s12">Customer View</a>
+<a href="#s13">Templates</a>
+<a href="#s14">Template Editor</a>
+<a href="#s15">Convert</a>
+</nav>
+<!-- ═══ 1. GC DASHBOARD ═══ -->
+<div class="section" id="s1">
+<div class="section-label">Screen 1 — Desktop</div>
+<div class="section-title">GC Dashboard</div>
+<div class="section-desc">The GC's home base. Opens every morning to see what needs attention.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Every project shows a color dot: green (all good), yellow (something due soon), red (overdue). You see trouble at a glance without clicking anything.</li>
+<li>The sidebar lists all your projects. The number on each one is the active task count.</li>
+<li>"Good morning, Mike" and "3 tasks need attention" gives you a daily briefing without reading anything else.</li>
+<li>One button to create a new project. One click to open any project.</li>
+<li>This replaces opening your spreadsheet, texting 3 subs "what's the status?", and hoping you didn't forget a project.</li>
+</ul>
+</div>
+<div class="desktop-frame">
+<div class="sidebar">
+<div class="sidebar-logo"><span>OG</span><span class="dim"> Build</span></div>
+<div class="sidebar-section-label">Menu</div>
+<div class="sidebar-item active">Dashboard</div>
+<div class="sidebar-item">Customers</div>
+<div class="sidebar-item">Estimates <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">7</span></div>
+<div class="sidebar-item">Templates</div>
+<div class="sidebar-section-label">Projects</div>
+<div class="sidebar-item"><div class="dot" style="background:var(--red)"></div> Highland Park <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">12</span></div>
+<div class="sidebar-item"><div class="dot" style="background:var(--green)"></div> Oak Cliff <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">8</span></div>
+<div class="sidebar-item"><div class="dot" style="background:var(--yellow)"></div> Lakewood <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">5</span></div>
+<div class="sidebar-item"><div class="dot" style="background:var(--green)"></div> Bishop Arts <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">15</span></div>
+</div>
+<div class="main">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<div><h2>Good morning, Mike</h2><div class="sub-h">4 active projects · 3 tasks need attention</div></div>
+<button class="btn btn-primary">+ New Project</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+<div class="card"><div style="display:flex;justify-content:space-between"><h4>Highland Park Remodel</h4><div class="dot" style="background:var(--red);width:10px;height:10px;border-radius:50%"></div></div><p>12 tasks · 4 subs</p><div style="margin-top:8px"><span class="health-tag red">2 tasks overdue</span></div><div class="progress"><div class="progress-fill" style="width:45%;background:var(--red)"></div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><h4>Lakewood Kitchen</h4><div class="dot" style="background:var(--yellow);width:10px;height:10px;border-radius:50%"></div></div><p>5 tasks · 2 subs</p><div style="margin-top:8px"><span class="health-tag yellow">Due tomorrow</span></div><div class="progress"><div class="progress-fill" style="width:60%;background:var(--yellow)"></div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><h4>Oak Cliff New Build</h4><div class="dot" style="background:var(--green);width:10px;height:10px;border-radius:50%"></div></div><p>8 tasks · 3 subs</p><div style="margin-top:8px"><span class="health-tag green">On track</span></div><div class="progress"><div class="progress-fill" style="width:75%;background:var(--green)"></div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><h4>Bishop Arts Commercial</h4><div class="dot" style="background:var(--green);width:10px;height:10px;border-radius:50%"></div></div><p>15 tasks · 6 subs</p><div style="margin-top:8px"><span class="health-tag green">On track</span></div><div class="progress"><div class="progress-fill" style="width:30%;background:var(--green)"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 2. SUB MAGIC LINK LANDING ═══ -->
+<div class="section" id="s2">
+<div class="section-label">Screen 2 — Mobile (375px)</div>
+<div class="section-title">Sub Magic Link Landing</div>
+<div class="section-desc">What Carlos the electrician sees when he taps the SMS link. Zero signup. Tasks immediately.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>When you invite a sub by phone number, they get a text. They tap the link and instantly see their tasks. No app download, no account creation, no password.</li>
+<li>The sub can update task status with a single tap: "Not started" → "In progress" → "Done". You see the update on your dashboard in real time.</li>
+<li>The bar at the bottom lets them save an account to see tasks from ALL their GCs. But it's optional. They can use the app without it.</li>
+<li>This replaces calling Carlos to ask "did you finish the panel upgrade?" He just taps "Done" and you see it.</li>
+<li>The link works for 3 days, so if Carlos opens it at lunch instead of right away, it still works.</li>
+</ul>
+</div>
+<div class="mobile-frame">
+<div class="mobile-status">OG Build</div>
+<div class="mobile-content">
+<div style="text-align:center;padding:16px 0 12px">
+<div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">Highland Park Remodel</div>
+<h2 style="font-size:18px">Hey Carlos</h2>
+<p style="font-size:13px;color:var(--text-secondary)">Here's what's on your plate</p>
+</div>
+<div class="card"><h4 style="font-size:14px">Install recessed lighting — master bedroom</h4><p>Due: Apr 8</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px">○ Not started</button></div></div>
+<div class="card"><h4 style="font-size:14px">Rough-in kitchen island electrical</h4><p>Due: Apr 10</p><div style="margin-top:8px"><button class="btn" style="font-size:12px;padding:6px 12px;border:1px solid var(--accent);color:var(--accent);background:var(--accent-tint)">◐ In progress</button></div></div>
+<div class="card"><h4 style="font-size:14px">Panel upgrade — 200A service</h4><p>Due: Apr 12</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:12px;padding:6px 12px">○ Not started</button></div></div>
+<div class="card"><h4 style="font-size:14px">EV charger pre-wire — garage</h4><p>Due: Apr 15</p><div style="margin-top:8px"><button class="btn" style="font-size:12px;padding:6px 12px;background:var(--green-bg);border:1px solid var(--green);color:var(--green)">✓ Done</button></div></div>
+</div>
+<div style="position:absolute;bottom:0;left:0;right:0;background:var(--bg-sidebar);padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
+<p style="color:var(--text-sidebar);font-size:12px;max-width:200px">See tasks from all your GCs in one place</p>
+<button class="btn btn-primary" style="font-size:12px">Save account</button>
+</div>
+</div>
+</div>
+
+<!-- ═══ 3. PROJECT TASK VIEW ═══ -->
+<div class="section" id="s3">
+<div class="section-label">Screen 3 — Desktop</div>
+<div class="section-title">Project Task View + Activity Feed</div>
+<div class="section-desc">Inside a project. Every task, every sub, every status update. Activity feed on the right.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>All tasks for a project in one list, grouped by urgency. Red dates mean overdue. Yellow means due soon. You see what's slipping without calling anyone.</li>
+<li>Each task shows which sub is assigned. "Carlos @ Apex Electric" — you know who to follow up with.</li>
+<li>The activity feed on the right is like a text thread for the project, but organized. You see who did what and when, without scrolling through 50 texts.</li>
+<li>Filter by "Overdue" or "By sub" to focus on what matters right now.</li>
+<li>Click any task to see comments, photos, and full history (that's the Task Detail screen).</li>
+</ul>
+</div>
+<div class="desktop-frame">
+<div class="sidebar" style="width:220px">
+<div class="sidebar-logo"><span>OG</span><span class="dim"> Build</span></div>
+<div class="sidebar-section-label">Menu</div>
+<div class="sidebar-item">Dashboard</div>
+<div class="sidebar-item">Customers</div>
+<div class="sidebar-item">Estimates <span style="margin-left:auto;font-size:11px;font-family:'DM Mono';background:#2a2e38;padding:1px 6px;border-radius:4px">7</span></div>
+<div class="sidebar-item">Templates</div>
+<div class="sidebar-section-label">Projects</div>
+<div class="sidebar-item active"><div class="dot" style="background:var(--red)"></div>Highland Park</div>
+<div class="sidebar-item"><div class="dot" style="background:var(--green)"></div>Oak Cliff</div>
+<div class="sidebar-item"><div class="dot" style="background:var(--yellow)"></div>Lakewood</div>
+<div class="sidebar-item"><div class="dot" style="background:var(--green)"></div>Bishop Arts</div>
+</div>
+<div class="main" style="flex:1">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h2>Highland Park Remodel</h2>
+<div style="display:flex;gap:6px"><button class="btn" style="padding:4px 10px;font-size:11px;background:var(--accent-tint);color:var(--accent);border:none">All</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">Overdue</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">By sub</button></div>
+</div>
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin:12px 0 6px">Overdue</div>
+<div class="task-row"><div class="checkbox"></div><div class="task-info"><div class="name">Install recessed lighting — master</div><div class="sub-text">Carlos @ Apex Electric</div></div><span class="task-due overdue">Apr 4</span></div>
+<div class="task-row"><div class="checkbox"></div><div class="task-info"><div class="name">Frame bathroom addition</div><div class="sub-text">Tony @ DFW Framing</div></div><span class="task-due overdue">Apr 3</span></div>
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin:12px 0 6px">Due this week</div>
+<div class="task-row"><div class="checkbox"></div><div class="task-info"><div class="name">Rough-in kitchen island electrical</div><div class="sub-text">Carlos @ Apex Electric</div></div><span class="task-due soon">Apr 10</span></div>
+<div class="task-row"><div class="checkbox"></div><div class="task-info"><div class="name">Install tub/shower valve</div><div class="sub-text">Pete @ Lone Star Plumbing</div></div><span class="task-due soon">Apr 11</span></div>
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin:12px 0 6px">Completed</div>
+<div class="task-row" style="opacity:0.5"><div class="checkbox checked"></div><div class="task-info"><div class="name" style="text-decoration:line-through">EV charger pre-wire — garage</div><div class="sub-text">Carlos @ Apex Electric</div></div><span class="task-due">Apr 5</span></div>
+</div>
+<div style="width:280px;background:var(--bg-card);border-left:1px solid var(--border-light);padding:16px;overflow-y:auto">
+<h3 style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:14px">Activity</h3>
+<div style="display:flex;gap:8px;margin-bottom:12px;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0"></div><div><strong>Carlos</strong> marked "EV charger" done<br><span style="font-size:11px;color:var(--text-muted)">2h ago</span></div></div>
+<div style="display:flex;gap:8px;margin-bottom:12px;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--text-muted);margin-top:5px;flex-shrink:0"></div><div><strong>Pete</strong> commented: "Need valve brand"<br><span style="font-size:11px;color:var(--text-muted)">4h ago</span></div></div>
+<div style="display:flex;gap:8px;margin-bottom:12px;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:var(--text-muted);margin-top:5px;flex-shrink:0"></div><div><strong>Carlos</strong> uploaded photo<br><span style="font-size:11px;color:var(--text-muted)">Yesterday</span></div></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 4. GC ONBOARDING ═══ -->
+<div class="section" id="s4">
+<div class="section-label">Screen 4 — Centered (480px)</div>
+<div class="section-title">GC Onboarding — 3-Step Flow</div>
+<div class="section-desc">First-time GC experience. Company → Project → Invite your first sub.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Three quick steps when you first sign up: name your company, create your first project, and invite your first sub. Takes under 2 minutes.</li>
+<li>You're not staring at a blank screen wondering what to do. The app walks you through it.</li>
+<li>By the time you finish, you have a project with tasks and your first sub has already received a text.</li>
+</ul>
+</div>
+<div class="onboarding-frame">
+<div class="onboarding-header"><div class="logo">OG<span class="dim"> Build</span></div><p>Let's get you set up</p></div>
+<div class="onboarding-body">
+<div class="step-indicator"><div class="step-dot done"></div><div class="step-dot active"></div><div class="step-dot"></div></div>
+<h3 style="font-size:16px;font-weight:700;margin-bottom:4px">Create your first project</h3>
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px">What are you working on right now?</p>
+<div style="margin-bottom:16px"><label class="label">Project name</label><input class="input" placeholder="e.g. Highland Park Remodel" value="Highland Park Remodel"></div>
+<div style="margin-bottom:16px"><label class="label">Type</label><div style="display:flex;gap:8px"><button class="btn" style="padding:6px 12px;font-size:12px;border:1px solid var(--accent);color:var(--accent);background:var(--accent-tint)">Residential</button><button class="btn btn-ghost" style="padding:6px 12px;font-size:12px">Commercial</button><button class="btn btn-ghost" style="padding:6px 12px;font-size:12px">Remodel</button></div></div>
+<div style="margin-bottom:20px"><label class="label">Address (optional)</label><input class="input" placeholder="e.g. 4501 Mockingbird Ln, Dallas TX"></div>
+<div style="display:flex;justify-content:space-between"><button class="btn btn-ghost">Back</button><button class="btn btn-primary">Next: Invite a sub →</button></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 5. TASK DETAIL ═══ -->
+<div class="section" id="s5">
+<div class="section-label">Screen 5 — Desktop (slide-in panel)</div>
+<div class="section-title">Task Detail with Comments & Attachments</div>
+<div class="section-desc">Click a task to see everything: status, photos, comments, history.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Click any task and a panel slides in from the right with all the details. Status, who's assigned, due date, photos, and a comment thread.</li>
+<li>Subs can upload photos of completed work directly to the task. You see the photo without calling to ask "can you send me a picture?"</li>
+<li>Comments are like a text thread, but attached to the specific task. No more scrolling through 50 texts to find what Carlos said about the kitchen wiring.</li>
+<li>You can change the status, reassign the task, or update the due date right from this panel.</li>
+</ul>
+</div>
+<div style="width:400px;margin:0 auto">
+<div class="task-detail-panel" style="border:1px solid var(--border-light);border-radius:12px;box-shadow:var(--shadow-lg)">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><h3>Install recessed lighting</h3><button class="btn btn-ghost" style="padding:4px 8px;font-size:16px">×</button></div>
+<div class="meta">Master bedroom · Carlos @ Apex Electric · Due Apr 8</div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:8px">STATUS</div>
+<div class="status-select"><button class="status-option">Not started</button><button class="status-option active">In progress</button><button class="status-option">Done</button><button class="status-option" style="color:var(--red);border-color:var(--red-bg)">Blocked</button></div>
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:8px">FLAGS</div><div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:8px 12px;background:var(--bg-muted);border-radius:6px"><span style="font-size:16px">🌦</span><div style="flex:1"><span style="font-size:13px;font-weight:500">Weather dependent</span><br><span style="font-size:11px;color:var(--text-muted)">This task may be delayed by weather</span></div><div class="toggle"></div></div><div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:8px">PHOTOS</div>
+<div class="attachment-grid">
+<div class="attachment-thumb">📸</div>
+<div class="attachment-thumb">📸</div>
+<div class="attachment-thumb attachment-add">+</div>
+</div>
+<div class="comment-thread">
+<div style="font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:12px">COMMENTS</div>
+<div class="comment"><div class="comment-header"><span class="comment-author">Carlos</span><span class="comment-time">Apr 5, 2:30 PM</span></div><div class="comment-body">Started rough-in. Need to confirm fixture locations with homeowner before cutting drywall.</div></div>
+<div class="comment"><div class="comment-header"><span class="comment-author">Mike (you)</span><span class="comment-time">Apr 5, 3:15 PM</span></div><div class="comment-body">Homeowner confirmed. Go ahead with the layout we discussed. 6 cans, 4-inch IC rated.</div></div>
+<div class="comment-input"><input class="input" placeholder="Add a comment..." style="font-size:13px"><button class="btn btn-primary" style="padding:8px 12px">Send</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 6. SUB CROSS-GC HOME ═══ -->
+<div class="section" id="s6">
+<div class="section-label">Screen 6 — Mobile (375px)</div>
+<div class="section-title">Sub Home — Cross-GC Task List</div>
+<div class="section-desc">After saving an account, the sub sees ALL tasks from ALL GCs, sorted by due date.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Once a sub saves their account, they can see tasks from every GC they work with, in one list. This is the feature that makes them actually want an account.</li>
+<li>Instead of juggling texts from 3 different GCs, Carlos opens one app and sees everything due this week across all his jobs.</li>
+<li>Each task shows which project (and which GC) it's from. Carlos can tap any task to see details and update status.</li>
+<li>This is the two-sided value: the sub gets something YOUR competitors don't offer. That's why they'll use OG Build instead of just texting you back.</li>
+</ul>
+</div>
+<div class="mobile-frame">
+<div class="mobile-status">OG Build</div>
+<div class="mobile-content">
+<div style="padding:12px 0 8px"><h2 style="font-size:18px">Your Tasks</h2><p style="font-size:12px;color:var(--text-secondary)">6 tasks across 3 projects</p></div>
+<div style="font-size:10px;font-weight:600;color:var(--red);letter-spacing:0.5px;margin:8px 0 4px">OVERDUE</div>
+<div class="card"><h4 style="font-size:14px">Install recessed lighting</h4><p>Highland Park Remodel · <strong style="color:var(--text)">Mike's Construction</strong></p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="task-due overdue">Due Apr 4</span><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Update →</button></div></div>
+<div style="font-size:10px;font-weight:600;color:var(--yellow);letter-spacing:0.5px;margin:12px 0 4px">DUE THIS WEEK</div>
+<div class="card"><h4 style="font-size:14px">Rough-in kitchen island</h4><p>Highland Park Remodel · <strong style="color:var(--text)">Mike's Construction</strong></p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="task-due soon">Due Apr 10</span><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Update →</button></div></div>
+<div class="card"><h4 style="font-size:14px">Wire outdoor kitchen</h4><p>Oak Cliff Pool House · <strong style="color:var(--text)">Smith Builders</strong></p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="task-due soon">Due Apr 11</span><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Update →</button></div></div>
+<div class="card"><h4 style="font-size:14px">Panel upgrade — 200A</h4><p>Highland Park Remodel · <strong style="color:var(--text)">Mike's Construction</strong></p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="task-due">Due Apr 12</span><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Update →</button></div></div>
+<div style="font-size:10px;font-weight:600;color:var(--green);letter-spacing:0.5px;margin:12px 0 4px">UPCOMING</div>
+<div class="card"><h4 style="font-size:14px">Final inspection prep</h4><p>Lakewood Duplex · <strong style="color:var(--text)">Johnson Homes</strong></p><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="task-due">Due Apr 18</span><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Update →</button></div></div>
+</div>
+<div class="tab-bar">
+<div class="tab active"><span class="tab-icon">📋</span>Tasks</div>
+<div class="tab"><span class="tab-icon">🔔</span>Alerts</div>
+<div class="tab"><span class="tab-icon">⚙️</span>Settings</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 7. DAILY DIGEST SMS ═══ -->
+<div class="section" id="s7">
+<div class="section-label">Screen 7 — SMS</div>
+<div class="section-title">Daily Digest SMS</div>
+<div class="section-desc">What the sub receives at 7am every morning. Their daily briefing via text.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Every morning at 7am, each of your subs gets a text with their tasks for the day. This replaces your morning round of "hey, don't forget about..." calls.</li>
+<li>The text includes a link to update status right from the message. Carlos reads it at 7am, taps the link at lunch, updates his tasks.</li>
+<li>If a sub has nothing due, they don't get a text. No spam.</li>
+<li>Subs can opt out of the daily digest in their notification settings.</li>
+</ul>
+</div>
+<div class="sms-frame">
+<div class="sms-time">Today 7:00 AM</div>
+<div class="sms-bubble sms-incoming">
+<strong>OG Build</strong><br><br>
+Good morning Carlos! You have 3 tasks today:<br><br>
+📍 Highland Park Remodel<br>
+  • Install recessed lighting — <span style="color:var(--red)">OVERDUE</span><br>
+  • Rough-in kitchen island — due Apr 10<br><br>
+📍 Oak Cliff Pool House<br>
+  • Wire outdoor kitchen — due Apr 11<br><br>
+<span class="sms-link">Tap to view & update →</span>
+</div>
+</div>
+</div>
+
+<!-- ═══ 8. NOTIFICATION PREFERENCES ═══ -->
+<div class="section" id="s8">
+<div class="section-label">Screen 8 — Mobile (375px)</div>
+<div class="section-title">Notification Preferences</div>
+<div class="section-desc">The sub controls how and when they hear from the app.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Subs control their own notifications. If they don't want the 7am text, they turn it off. This builds trust.</li>
+<li>Important: "New task assigned" stays on by default. When you add a task for a sub, they hear about it.</li>
+<li>This is better than texting because the sub CHOSE to receive these. They're not ignoring a text from you — they're checking their app.</li>
+</ul>
+</div>
+<div class="mobile-frame">
+<div class="mobile-status">OG Build</div>
+<div class="mobile-content">
+<div style="padding:12px 0"><h2 style="font-size:18px">Notifications</h2><p style="font-size:12px;color:var(--text-secondary)">Control how you hear from OG Build</p></div>
+<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:10px;padding:4px 14px">
+<div class="setting-row"><div class="setting-info"><h4>Daily digest (7am)</h4><p>Tasks due today and overdue items</p></div><div class="toggle"></div></div>
+<div class="setting-row"><div class="setting-info"><h4>New task assigned</h4><p>When a GC gives you a new task</p></div><div class="toggle"></div></div>
+<div class="setting-row"><div class="setting-info"><h4>New comments</h4><p>When someone comments on your tasks</p></div><div class="toggle"></div></div>
+<div class="setting-row"><div class="setting-info"><h4>Due date reminders</h4><p>24 hours before a task is due</p></div><div class="toggle"></div></div>
+<div class="setting-row"><div class="setting-info"><h4>Project updates</h4><p>When new subs join or tasks change</p></div><div class="toggle off"></div></div>
+</div>
+</div>
+<div class="tab-bar">
+<div class="tab"><span class="tab-icon">📋</span>Tasks</div>
+<div class="tab"><span class="tab-icon">🔔</span>Alerts</div>
+<div class="tab active"><span class="tab-icon">⚙️</span>Settings</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 9. INVITE SUB FLOW ═══ -->
+<div class="section" id="s9">
+<div class="section-label">Screen 9 — Desktop (modal)</div>
+<div class="section-title">Invite Sub Flow</div>
+<div class="section-desc">GC enters a phone number, sees a preview of the text that will be sent.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>To add a sub to a project, you just enter their phone number and their name. That's it.</li>
+<li>You see a preview of exactly what text they'll receive before you send it. No surprises.</li>
+<li>If the sub is already on OG Build (maybe they work with another GC), they get added to your project instantly. No duplicate accounts.</li>
+<li>You can add multiple subs at once if you're setting up a new project.</li>
+</ul>
+</div>
+<div style="width:440px;margin:0 auto;background:var(--bg-card);border-radius:12px;box-shadow:var(--shadow-lg);overflow:hidden">
+<div style="padding:20px 24px;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:16px;font-weight:700">Invite a Sub</h3><button class="btn btn-ghost" style="padding:4px 8px;font-size:16px">×</button></div>
+<div style="padding:24px">
+<p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px">They'll get a text with a link to see their tasks on Highland Park Remodel.</p>
+<div style="margin-bottom:14px"><label class="label">Sub's name</label><input class="input" value="Carlos Rodriguez"></div>
+<div style="margin-bottom:14px"><label class="label">Company name (optional)</label><input class="input" value="Apex Electric"></div>
+<div style="margin-bottom:14px"><label class="label">Phone number</label><input class="input" value="(214) 555-0147"></div>
+<div style="margin-bottom:14px"><label class="label">Trade</label><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" style="padding:4px 10px;font-size:11px;border:1px solid var(--accent);color:var(--accent);background:var(--accent-tint)">Electrical</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">Plumbing</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">Framing</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">HVAC</button><button class="btn btn-ghost" style="padding:4px 10px;font-size:11px">Other</button></div></div>
+<div class="invite-preview">
+<div class="preview-label">SMS Preview</div>
+<div class="preview-text">Mike's Construction invited you to Highland Park Remodel on OG Build. Tap to see your tasks: <span style="color:#007aff">ogbuild.app/j/abc123</span></div>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px"><button class="btn btn-ghost">Cancel</button><button class="btn btn-primary">Send Invite</button></div>
+</div>
+</div>
+</div>
+
+<div style="padding:48px 24px;text-align:center;font-size:12px;color:var(--text-muted)">OG Build — All 9 screens. Design system evolved from OG Ops.</div>
+</div>
+
+<div class="phase-divider" id="phase2">
+<h2>Phase 2 — Estimates, Customers & Templates</h2>
+</div>
+<!-- ═══ 1. CUSTOMER LIST ═══ -->
+<div class="section" id="s1">
+<div class="section-label">Screen 10 — Desktop</div>
+<div class="section-title">Customer List</div>
+<div class="section-desc">All of the GC's customers in one place. Each customer links to their estimates and projects.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Every customer you've ever worked with (or quoted), in one list. Name, phone, address, and how many estimates/projects you have with them.</li>
+<li>Click a customer to see all their estimates and projects. No more digging through emails to find "what did we quote the Johnsons?"</li>
+<li>Quick-add a new customer right from here when you get a new lead.</li>
+<li>This is the start of your CRM. You're building a customer database without realizing it.</li>
+</ul>
+</div>
+<div class="desktop-frame">
+<div class="sidebar">
+<div class="sidebar-logo"><span>OG</span><span class="dim"> Build</span></div>
+<div class="sidebar-section-label">Menu</div>
+<div class="sidebar-item">Dashboard</div>
+<div class="sidebar-item active">Customers</div>
+<div class="sidebar-item">Estimates <span class="count">7</span></div>
+<div class="sidebar-item">Templates</div>
+<div class="sidebar-section-label">Projects</div>
+<div class="sidebar-item">Highland Park</div>
+<div class="sidebar-item">Oak Cliff</div>
+<div class="sidebar-item">Lakewood</div>
+</div>
+<div class="main">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<div><h2>Customers</h2><div class="sub-h">12 customers · 3 with active projects</div></div>
+<button class="btn btn-primary">+ New Customer</button>
+</div>
+<table>
+<thead><tr><th>Name</th><th>Phone</th><th>Estimates</th><th>Projects</th><th>Last Activity</th></tr></thead>
+<tbody>
+<tr><td><strong>Sarah & Mark Johnson</strong><br><span style="font-size:11px;color:var(--text-muted)">4501 Mockingbird Ln, Dallas</span></td><td class="mono">(214) 555-0191</td><td>2</td><td>1 active</td><td class="mono">Apr 4</td></tr>
+<tr><td><strong>David Chen</strong><br><span style="font-size:11px;color:var(--text-muted)">2200 Oak Lawn Ave, Dallas</span></td><td class="mono">(972) 555-0234</td><td>1</td><td>1 active</td><td class="mono">Apr 2</td></tr>
+<tr><td><strong>Bishop Arts Coffee Co.</strong><br><span style="font-size:11px;color:var(--text-muted)">408 N Bishop Ave, Dallas</span></td><td class="mono">(469) 555-0312</td><td>3</td><td>1 active</td><td class="mono">Mar 28</td></tr>
+<tr><td><strong>Lisa Ramirez</strong><br><span style="font-size:11px;color:var(--text-muted)">1800 Lakewood Blvd, Dallas</span></td><td class="mono">(214) 555-0478</td><td>1</td><td>—</td><td class="mono">Mar 15</td></tr>
+<tr><td><strong>Tom & Amy Parker</strong><br><span style="font-size:11px;color:var(--text-muted)">3100 Swiss Ave, Dallas</span></td><td class="mono">(972) 555-0567</td><td>1</td><td>—</td><td class="mono">Mar 10</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ═══ 2. ESTIMATE BUILDER ═══ -->
+<div class="section" id="s2">
+<div class="section-label">Screen 11 — Desktop</div>
+<div class="section-title">Estimate Builder</div>
+<div class="section-desc">Where the GC builds the estimate. Line items with pricing. Can start from a template or blank.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>Build an estimate from scratch or start from one of your saved templates. "Kitchen Remodel" template pre-fills the common line items, you just adjust prices.</li>
+<li>Each line item has a description, quantity, unit price, and total. The system adds it all up.</li>
+<li>When you're done, hit "Send to Customer" and they get a text or email with a link to view and approve it online.</li>
+<li>Once approved, one click converts it to a project with tasks. No retyping anything.</li>
+<li>You can also export as PDF if the customer prefers paper.</li>
+</ul>
+</div>
+<div class="desktop-frame">
+<div class="sidebar">
+<div class="sidebar-logo"><span>OG</span><span class="dim"> Build</span></div>
+<div class="sidebar-section-label">Menu</div>
+<div class="sidebar-item">Dashboard</div>
+<div class="sidebar-item">Customers</div>
+<div class="sidebar-item active">Estimates <span class="count">7</span></div>
+<div class="sidebar-item">Templates</div>
+</div>
+<div class="main">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+<h2>Highland Park Kitchen Remodel</h2>
+<div style="display:flex;gap:8px"><button class="btn btn-ghost">Export PDF</button><button class="btn btn-primary">Send to Customer</button></div>
+</div>
+<div class="sub-h">Sarah & Mark Johnson · <span class="tag tag-draft">Draft</span></div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:10px;overflow:hidden">
+<table>
+<thead><tr><th style="width:40%">Description</th><th>Qty</th><th>Unit Price</th><th>Total</th><th style="width:30px">🌦</th><th style="width:40px"></th></tr></thead>
+<tbody>
+<tr><td><strong>Demo existing cabinets & countertops</strong><br><span style="font-size:11px;color:var(--text-muted)">Including haul-off and disposal</span></td><td class="mono">1</td><td class="mono">$2,500</td><td class="mono" style="font-weight:600">$2,500</td><td style="text-align:center"><span style="cursor:pointer;opacity:0.3" title="Not weather dependent">🌦</span></td><td style="color:var(--text-muted);cursor:pointer">×</td></tr>
+<tr><td><strong>Electrical rough-in</strong><br><span style="font-size:11px;color:var(--text-muted)">Recessed lighting, island outlets, under-cabinet</span></td><td class="mono">1</td><td class="mono">$4,200</td><td class="mono" style="font-weight:600">$4,200</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td><strong>Plumbing rough-in</strong><br><span style="font-size:11px;color:var(--text-muted)">Relocate sink, add dishwasher line, garbage disposal</span></td><td class="mono">1</td><td class="mono">$3,800</td><td class="mono" style="font-weight:600">$3,800</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td><strong>Custom cabinetry — install</strong><br><span style="font-size:11px;color:var(--text-muted)">36 linear feet, shaker style, soft-close</span></td><td class="mono">1</td><td class="mono">$12,500</td><td class="mono" style="font-weight:600">$12,500</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td><strong>Countertop — quartz</strong><br><span style="font-size:11px;color:var(--text-muted)">45 sq ft, Calacatta pattern, includes backsplash</span></td><td class="mono">45</td><td class="mono">$85</td><td class="mono" style="font-weight:600">$3,825</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td><strong>Tile backsplash</strong><br><span style="font-size:11px;color:var(--text-muted)">Subway tile, herringbone pattern</span></td><td class="mono">28</td><td class="mono">$35</td><td class="mono" style="font-weight:600">$980</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td><strong>Painting & trim</strong><br><span style="font-size:11px;color:var(--text-muted)">Walls, ceiling, crown molding, 2 coats</span></td><td class="mono">1</td><td class="mono">$2,800</td><td class="mono" style="font-weight:600">$2,800</td><td style="color:var(--text-muted)">×</td></tr>
+<tr><td colspan="5" style="border-bottom:none"><button class="btn btn-ghost" style="font-size:12px">+ Add line item</button></td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="display:flex;justify-content:flex-end;margin-top:16px">
+<div style="text-align:right">
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px">Subtotal: <span class="mono" style="color:var(--text)">$30,605</span></div>
+<div style="font-size:20px;font-weight:700">Total: <span style="font-family:'DM Mono',monospace">$30,605.00</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 3. CUSTOMER ESTIMATE VIEW ═══ -->
+<div class="section" id="s3">
+<div class="section-label">Screen 12 — Customer-Facing (shareable link)</div>
+<div class="section-title">Customer Estimate View</div>
+<div class="section-desc">What the homeowner sees when they tap the link. Professional, clean, one-tap approve.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>When you send an estimate, the customer gets a text or email with a link. They tap it and see this. No app download, no account needed.</li>
+<li>It looks professional. Your company name, the project details, every line item with pricing. Better than a handwritten quote or a messy email.</li>
+<li>The customer can approve right from this page with one tap. Or request changes. You get notified either way.</li>
+<li>This replaces printing estimates, driving them over, and waiting for a callback. The customer can approve at midnight from their couch.</li>
+</ul>
+</div>
+<div class="estimate-public">
+<div class="estimate-header">
+<div class="company">MIKE'S CONSTRUCTION</div>
+<h2>Highland Park Kitchen Remodel</h2>
+<p>Prepared for Sarah & Mark Johnson · Apr 6, 2026</p>
+</div>
+<div class="estimate-body">
+<div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px">Estimate #EST-2026-014 · Valid through May 6, 2026</div>
+<table style="font-size:13px">
+<thead><tr><th>Description</th><th style="text-align:right">Amount</th></tr></thead>
+<tbody>
+<tr><td>Demo existing cabinets & countertops</td><td class="mono" style="text-align:right">$2,500</td></tr>
+<tr><td>Electrical rough-in</td><td class="mono" style="text-align:right">$4,200</td></tr>
+<tr><td>Plumbing rough-in</td><td class="mono" style="text-align:right">$3,800</td></tr>
+<tr><td>Custom cabinetry install (36 LF)</td><td class="mono" style="text-align:right">$12,500</td></tr>
+<tr><td>Countertop — quartz (45 sq ft)</td><td class="mono" style="text-align:right">$3,825</td></tr>
+<tr><td>Tile backsplash — herringbone</td><td class="mono" style="text-align:right">$980</td></tr>
+<tr><td>Painting & trim — 2 coats</td><td class="mono" style="text-align:right">$2,800</td></tr>
+</tbody>
+</table>
+<div class="estimate-total">
+<span style="font-size:14px;color:var(--text-secondary)">Total Estimate</span>
+<span class="amount" style="font-family:'DM Mono',monospace">$30,605.00</span>
+</div>
+<div style="font-size:12px;color:var(--text-muted);margin-top:12px;line-height:1.6">
+<strong>Notes:</strong> Price includes all labor and materials. Permit fees not included. Timeline: approximately 4-6 weeks from start date. 50% deposit required to begin, balance due on completion.
+</div>
+</div>
+<div class="estimate-actions">
+<button class="btn btn-ghost" style="font-size:14px">Request Changes</button>
+<button class="btn btn-success" style="font-size:14px">Approve Estimate</button>
+</div>
+</div>
+</div>
+
+<!-- ═══ 4. TEMPLATE LIBRARY ═══ -->
+<div class="section" id="s4">
+<div class="section-label">Screen 13 — Desktop</div>
+<div class="section-title">Template Library</div>
+<div class="section-desc">System templates from OG Build + the GC's own custom templates. Start new estimates and projects fast.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>OG Build comes with starter templates for common project types: Kitchen Remodel, Bathroom Addition, New Construction, etc. These give you the phases and typical task order.</li>
+<li>You can add any system template to your library, then customize it with your own pricing, tasks, and notes. It becomes YOUR template.</li>
+<li>Create templates from scratch too, based on your own project types and workflow.</li>
+<li>When you start a new estimate or project, pick a template and all the line items are pre-filled. Change what you need, send it. Saves 30+ minutes per estimate.</li>
+</ul>
+</div>
+<div class="desktop-frame">
+<div class="sidebar">
+<div class="sidebar-logo"><span>OG</span><span class="dim"> Build</span></div>
+<div class="sidebar-section-label">Menu</div>
+<div class="sidebar-item">Dashboard</div>
+<div class="sidebar-item">Customers</div>
+<div class="sidebar-item">Estimates</div>
+<div class="sidebar-item active">Templates</div>
+</div>
+<div class="main">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<div><h2>Templates</h2><div class="sub-h">6 system templates · 2 custom templates</div></div>
+<button class="btn btn-primary">+ Create Template</button>
+</div>
+
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">Your Templates</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:24px">
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-custom">Custom</span><span style="font-size:11px;color:var(--text-muted)">8 items</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Full Kitchen Remodel</h4><p style="font-size:12px;color:var(--text-secondary)">Demo, rough-in, cabinets, counters, tile, paint, fixtures, final punch</p></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-custom">Custom</span><span style="font-size:11px;color:var(--text-muted)">5 items</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Quick Bathroom Refresh</h4><p style="font-size:12px;color:var(--text-secondary)">Vanity swap, tile, paint, fixtures, accessories</p></div>
+</div>
+
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">System Templates</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">7 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Kitchen Remodel</h4><p style="font-size:12px;color:var(--text-secondary)">Demo → Rough-in → Cabinets → Counters → Tile → Paint → Final</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">6 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Bathroom Addition</h4><p style="font-size:12px;color:var(--text-secondary)">Frame → Plumb → Electric → Tile → Fixtures → Final</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">10 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">New Construction</h4><p style="font-size:12px;color:var(--text-secondary)">Site → Foundation → Frame → Roof → MEP → Insulation → Drywall → Finish → Landscape → Final</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">5 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Room Addition</h4><p style="font-size:12px;color:var(--text-secondary)">Foundation → Frame → MEP → Finishes → Final</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">6 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Commercial TI</h4><p style="font-size:12px;color:var(--text-secondary)">Demo → Frame → MEP → Finishes → Fixtures → Punch</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+<div class="template-card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="badge badge-system">System</span><span style="font-size:11px;color:var(--text-muted)">4 phases</span></div><h4 style="font-size:14px;font-weight:600;margin-bottom:4px">Deck / Patio</h4><p style="font-size:12px;color:var(--text-secondary)">Demo → Foundation → Build → Finish</p><div style="margin-top:8px"><button class="btn btn-ghost" style="font-size:11px;padding:4px 10px">Add to my library</button></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 5. TEMPLATE EDITOR ═══ -->
+<div class="section" id="s5">
+<div class="section-label">Screen 14 — Desktop</div>
+<div class="section-title">Template Editor</div>
+<div class="section-desc">Customize a template with your own phases, tasks, durations, and trade assignments.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>After adding a system template to your library, you can customize everything: add or remove phases, change the order, set default durations, and assign trade types.</li>
+<li>Drag to reorder. The order matters because it sets the default sequence for new estimates and projects.</li>
+<li>Add your own default descriptions and notes to each phase. When you create a new estimate, all of this pre-fills.</li>
+</ul>
+</div>
+<div style="max-width:640px;margin:0 auto;background:var(--bg-card);border-radius:12px;box-shadow:var(--shadow-lg);overflow:hidden">
+<div style="padding:20px 24px;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center">
+<div><h3 style="font-size:16px;font-weight:700">Full Kitchen Remodel</h3><span style="font-size:12px;color:var(--text-muted)">Custom template · 8 items</span></div>
+<button class="btn btn-primary">Save</button>
+</div>
+<div style="padding:20px 24px">
+<div style="margin-bottom:16px"><label class="label">Template name</label><input class="input" value="Full Kitchen Remodel"></div>
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin:20px 0 10px">Phases / Line Items</div>
+
+<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden">
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">1. Demo & Haul-off</strong><br><span style="font-size:11px;color:var(--text-muted)">5 days · General</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">2. Electrical Rough-in</strong><br><span style="font-size:11px;color:var(--text-muted)">3 days · Electrical</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">3. Plumbing Rough-in</strong><br><span style="font-size:11px;color:var(--text-muted)">3 days · Plumbing</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">4. Cabinet Install</strong><br><span style="font-size:11px;color:var(--text-muted)">5 days · Carpentry</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">5. Countertops</strong><br><span style="font-size:11px;color:var(--text-muted)">2 days · Countertop</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">6. Tile & Backsplash</strong><br><span style="font-size:11px;color:var(--text-muted)">3 days · Tile</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">7. Paint & Trim</strong><br><span style="font-size:11px;color:var(--text-muted)">3 days · Painting</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+<div style="display:flex;align-items:center;padding:10px 14px;gap:10px"><span style="color:var(--text-muted);cursor:grab">⠿</span><div style="flex:1"><strong style="font-size:13px">8. Final Punch & Inspection</strong><br><span style="font-size:11px;color:var(--text-muted)">2 days · General</span></div><span style="color:var(--text-muted);font-size:12px;cursor:pointer">Edit</span></div>
+</div>
+<div style="margin-top:12px"><button class="btn btn-ghost" style="font-size:12px">+ Add phase</button></div>
+</div>
+</div>
+</div>
+
+<!-- ═══ 6. CONVERT ESTIMATE TO PROJECT ═══ -->
+<div class="section" id="s6">
+<div class="section-label">Screen 15 — Desktop (modal)</div>
+<div class="section-title">Convert Estimate → Project</div>
+<div class="section-desc">One click: estimate line items become project tasks. Assign subs and start the work.</div>
+<div class="callouts">
+<h4>Notes for Oleg</h4>
+<ul>
+<li>When a customer approves an estimate, you click "Convert to Project." Each line item becomes a task, pre-filled with descriptions and trade types.</li>
+<li>You assign subs to each task right here. Select from subs you've worked with before, or invite new ones by phone number.</li>
+<li>Set start dates and durations. The schedule builds itself.</li>
+<li>Hit "Create Project" and every sub gets their invite text. You just went from approved estimate to active project in 2 minutes.</li>
+</ul>
+</div>
+<div style="max-width:560px;margin:0 auto;background:var(--bg-card);border-radius:12px;box-shadow:var(--shadow-lg);overflow:hidden">
+<div style="padding:20px 24px;border-bottom:1px solid var(--border-light)">
+<h3 style="font-size:16px;font-weight:700">Convert to Project</h3>
+<p style="font-size:12px;color:var(--text-secondary)">Highland Park Kitchen Remodel · Sarah & Mark Johnson · $30,605</p>
+</div>
+<div style="padding:20px 24px">
+<div style="font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">Tasks from estimate</div>
+<div style="border:1px solid var(--border-light);border-radius:8px;overflow:hidden;font-size:13px">
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Demo & haul-off</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option>Select sub...</option><option>Tony @ DFW Framing</option><option selected>+ Invite new sub</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Electrical rough-in</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option selected>Carlos @ Apex</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Plumbing rough-in</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option selected>Pete @ Lone Star</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Cabinet install</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option>Select sub...</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Countertops</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option>Select sub...</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border-light);gap:12px"><div style="flex:1"><strong>Tile & backsplash</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option>Select sub...</option></select></div></div>
+<div style="display:flex;align-items:center;padding:10px 14px;gap:12px"><div style="flex:1"><strong>Paint & trim</strong></div><div style="width:140px"><select class="input" style="font-size:12px;padding:6px 10px"><option>Select sub...</option></select></div></div>
+</div>
+
+<div style="margin-top:16px"><label class="label">Project start date</label><input class="input" type="date" value="2026-04-14" style="width:200px"></div>
+
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px">
+<button class="btn btn-ghost">Cancel</button>
+<button class="btn btn-primary">Create Project & Invite Subs</button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="padding:48px 24px;text-align:center;font-size:12px;color:var(--text-muted)">OG Build Phase 2 — Estimates, Customers & Templates. 6 new screens.</div>
+</div>
+
+<div style="padding:48px 24px;text-align:center;font-size:12px;color:var(--text-muted)">
+OG Build — 15 screens. Phase 1 (core ops) + Phase 2 (estimates & templates).<br>
+Design system evolved from OG Ops. Generated by gstack.
+</div>
+
+</body>
+</html>
