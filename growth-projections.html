@@ -70,6 +70,24 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .k-display .k-label { font-size:11px; color:var(--text-secondary); }
 
 .footer { padding:20px 24px; text-align:center; font-size:10px; color:var(--text-muted); border-top:1px solid var(--border); margin-top:8px; }
+
+/* Help tooltips */
+.help-btn { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; background:var(--bg-muted); border:1px solid var(--border); font-size:9px; font-weight:700; color:var(--text-muted); cursor:pointer; flex-shrink:0; margin-left:2px; line-height:1; }
+.help-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* Modal */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; padding:24px; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--bg-card); border-radius:14px; max-width:480px; width:100%; max-height:80vh; overflow-y:auto; box-shadow:0 16px 48px rgba(0,0,0,0.2); }
+.modal-header { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--border-light); position:sticky; top:0; background:var(--bg-card); border-radius:14px 14px 0 0; z-index:1; }
+.modal-header h3 { font-size:16px; font-weight:700; }
+.modal-close { background:none; border:none; font-size:20px; color:var(--text-muted); cursor:pointer; padding:4px 8px; line-height:1; }
+.modal-close:hover { color:var(--text); }
+.modal-body { padding:20px; }
+.modal-body p { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:12px; }
+.modal-body strong { color:var(--text); }
+.modal-body .example { background:var(--bg-muted); border-radius:6px; padding:10px 12px; font-size:12px; font-family:'DM Mono'; color:var(--text-secondary); margin:8px 0 12px; line-height:1.5; }
+.modal-body .leverage { font-size:11px; color:var(--accent); font-weight:600; margin-top:4px; }
 </style>
 </head>
 <body>
@@ -91,25 +109,33 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 
 <div class="params-grid">
 <div class="params-section">Viral Loop</div>
-<div class="param"><label>Subs per contractor</label><input type="range" id="p_subsPerGC" min="4" max="20" step="1"><span class="value" id="v_subsPerGC"></span></div>
-<div class="param"><label>Subs who save accounts</label><input type="range" id="p_subSaveRate" min="10" max="70" step="5"><span class="value" id="v_subSaveRate"></span></div>
-<div class="param"><label>Saved subs who reverse-invite</label><input type="range" id="p_reverseInviteRate" min="5" max="50" step="5"><span class="value" id="v_reverseInviteRate"></span></div>
-<div class="param"><label>Reverse invites per sub</label><input type="range" id="p_invitesPerSub" min="1" max="4" step="1"><span class="value" id="v_invitesPerSub"></span></div>
-<div class="param"><label>Invited contractors who convert</label><input type="range" id="p_gcConvertRate" min="5" max="40" step="5"><span class="value" id="v_gcConvertRate"></span></div>
+<div class="param"><label>Subs per contractor <span class="help-btn" onclick="showHelp('subsPerGC')">?</span></label><input type="range" id="p_subsPerGC" min="4" max="20" step="1"><span class="value" id="v_subsPerGC"></span></div>
+<div class="param"><label>Subs who save accounts <span class="help-btn" onclick="showHelp('subSaveRate')">?</span></label><input type="range" id="p_subSaveRate" min="10" max="70" step="5"><span class="value" id="v_subSaveRate"></span></div>
+<div class="param"><label>Saved subs who reverse-invite <span class="help-btn" onclick="showHelp('reverseInviteRate')">?</span></label><input type="range" id="p_reverseInviteRate" min="5" max="50" step="5"><span class="value" id="v_reverseInviteRate"></span></div>
+<div class="param"><label>Reverse invites per sub <span class="help-btn" onclick="showHelp('invitesPerSub')">?</span></label><input type="range" id="p_invitesPerSub" min="1" max="4" step="1"><span class="value" id="v_invitesPerSub"></span></div>
+<div class="param"><label>Invited contractors who convert <span class="help-btn" onclick="showHelp('gcConvertRate')">?</span></label><input type="range" id="p_gcConvertRate" min="5" max="40" step="5"><span class="value" id="v_gcConvertRate"></span></div>
 
 <div class="params-divider"></div>
 <div class="params-section">Acquisition (seed contractors/month)</div>
-<div class="param"><label>Months 4-6</label><input type="range" id="p_seed1" min="1" max="10" step="1"><span class="value" id="v_seed1"></span></div>
-<div class="param"><label>Months 7-12</label><input type="range" id="p_seed2" min="2" max="20" step="1"><span class="value" id="v_seed2"></span></div>
-<div class="param"><label>Months 13-24</label><input type="range" id="p_seed3" min="5" max="30" step="1"><span class="value" id="v_seed3"></span></div>
-<div class="param"><label>Months 25-36</label><input type="range" id="p_seed4" min="5" max="50" step="1"><span class="value" id="v_seed4"></span></div>
+<div class="param"><label>Months 4-6 <span class="help-btn" onclick="showHelp('seed1')">?</span></label><input type="range" id="p_seed1" min="1" max="10" step="1"><span class="value" id="v_seed1"></span></div>
+<div class="param"><label>Months 7-12 <span class="help-btn" onclick="showHelp('seed2')">?</span></label><input type="range" id="p_seed2" min="2" max="20" step="1"><span class="value" id="v_seed2"></span></div>
+<div class="param"><label>Months 13-24 <span class="help-btn" onclick="showHelp('seed3')">?</span></label><input type="range" id="p_seed3" min="5" max="30" step="1"><span class="value" id="v_seed3"></span></div>
+<div class="param"><label>Months 25-36 <span class="help-btn" onclick="showHelp('seed4')">?</span></label><input type="range" id="p_seed4" min="5" max="50" step="1"><span class="value" id="v_seed4"></span></div>
 
 <div class="params-divider"></div>
 <div class="params-section">Monetization</div>
-<div class="param"><label>Contractor Pro conversion (after 3 mo)</label><input type="range" id="p_gcProRate" min="5" max="35" step="1"><span class="value" id="v_gcProRate"></span></div>
-<div class="param"><label>Pro → Business upgrade (after 6 mo)</label><input type="range" id="p_gcBizRate" min="3" max="25" step="1"><span class="value" id="v_gcBizRate"></span></div>
-<div class="param"><label>Sub Pro conversion (after 3 mo)</label><input type="range" id="p_subProRate" min="2" max="15" step="1"><span class="value" id="v_subProRate"></span></div>
-<div class="param"><label>Monthly churn (paid users)</label><input type="range" id="p_churn" min="1" max="8" step="1"><span class="value" id="v_churn"></span></div>
+<div class="param"><label>Contractor Pro conversion <span class="help-btn" onclick="showHelp('gcProRate')">?</span></label><input type="range" id="p_gcProRate" min="5" max="35" step="1"><span class="value" id="v_gcProRate"></span></div>
+<div class="param"><label>Pro → Business upgrade <span class="help-btn" onclick="showHelp('gcBizRate')">?</span></label><input type="range" id="p_gcBizRate" min="3" max="25" step="1"><span class="value" id="v_gcBizRate"></span></div>
+<div class="param"><label>Sub Pro conversion <span class="help-btn" onclick="showHelp('subProRate')">?</span></label><input type="range" id="p_subProRate" min="2" max="15" step="1"><span class="value" id="v_subProRate"></span></div>
+<div class="param"><label>Monthly churn (paid) <span class="help-btn" onclick="showHelp('churn')">?</span></label><input type="range" id="p_churn" min="1" max="8" step="1"><span class="value" id="v_churn"></span></div>
+</div>
+
+<!-- Help Modal -->
+<div class="modal-overlay" id="helpModal" onclick="if(event.target===this)closeHelp()">
+<div class="modal">
+<div class="modal-header"><h3 id="helpTitle">Parameter</h3><button class="modal-close" onclick="closeHelp()">&times;</button></div>
+<div class="modal-body" id="helpBody"></div>
+</div>
 </div>
 </div>
 
@@ -169,9 +195,9 @@ const scenarios = {
     gcProRate: 18, gcBizRate: 12, subProRate: 6, churn: 4
   },
   optimistic: {
-    subsPerGC: 14, subSaveRate: 55, reverseInviteRate: 40, invitesPerSub: 3, gcConvertRate: 30,
-    seed1: 5, seed2: 12, seed3: 22, seed4: 35,
-    gcProRate: 25, gcBizRate: 18, subProRate: 10, churn: 3
+    subsPerGC: 12, subSaveRate: 50, reverseInviteRate: 35, invitesPerSub: 2, gcConvertRate: 25,
+    seed1: 4, seed2: 10, seed3: 18, seed4: 28,
+    gcProRate: 22, gcBizRate: 15, subProRate: 8, churn: 3
   }
 };
 
@@ -352,6 +378,117 @@ paramIds.forEach(id => {
     runModel();
   });
 });
+
+// ═══ HELP SYSTEM ═══
+const helpContent = {
+  subsPerGC: {
+    title: 'Subs per Contractor',
+    body: `<p><strong>What it is:</strong> When a contractor joins, they invite their subcontractors. This is the average number of subs each contractor works with across all their active projects.</p>
+<p><strong>How it affects growth:</strong> This is the "blast radius" of each contractor who joins. More subs means more chances someone triggers the reverse invite loop. It's the first multiplier in the viral chain.</p>
+<div class="example">1 contractor × <strong>10 subs</strong> = 10 people exposed to OG Build</div>
+<p><strong>What drives it:</strong> Mostly fixed by the industry. A mid-size contractor running 5-15 projects typically works with 8-15 subs. You can't change how many subs a contractor works with, but you can make sure the contractor invites ALL of them (not just a few).</p>
+<div class="leverage">Leverage: Low (industry-determined). Focus on making sure contractors invite all their subs, not just some.</div>`
+  },
+  subSaveRate: {
+    title: 'Subs Who Save Accounts',
+    body: `<p><strong>What it is:</strong> Of all subs who receive a magic link and see their tasks, what percentage taps "Save account" and creates a real login? The rest use the magic link to check tasks but never commit.</p>
+<p><strong>How it affects growth:</strong> This is the first filter in the viral funnel. Only saved-account subs can see the cross-GC view and trigger the reverse invite. If this is 20%, only 2 of 10 subs can ever start the flywheel. If it's 50%, it's 5 of 10.</p>
+<div class="example">10 subs × <strong>40% save rate</strong> = 4 subs who can potentially reverse-invite</div>
+<p><strong>What drives it:</strong> How compelling the "see all your work in one place" pitch is. If the cross-GC view feels like a superpower, this number goes up. If the prompt is poorly timed or the value isn't clear, it stays low.</p>
+<div class="leverage">Leverage: High. This is a UX design problem. Better prompting, better timing, clearer value proposition.</div>`
+  },
+  reverseInviteRate: {
+    title: 'Saved Subs Who Reverse-Invite',
+    body: `<p><strong>What it is:</strong> Of the subs who saved their account, what percentage actually taps "Add a GC you work with" and sends a status link to one of their other contractors?</p>
+<p><strong>How it affects growth:</strong> <strong>This is the single most important parameter in the entire model.</strong> It's where the viral loop either fires or dies. Moving this from 25% to 35% is the difference between K=0.4 and K=0.7.</p>
+<div class="example">4 saved subs × <strong>25% reverse-invite rate</strong> = 1 sub who sends invites</div>
+<p><strong>What drives it:</strong> Pure product design. How well-timed is the "Add a GC" prompt? How natural does it feel? Does the sub understand that adding their other GCs completes their own task list? The sub's motivation is selfish: "I want all my work in one place." The prompt needs to make that obvious.</p>
+<div class="leverage">Leverage: Highest. This is THE lever. Invest in prompt timing, placement, and copy here.</div>`
+  },
+  invitesPerSub: {
+    title: 'Reverse Invites per Sub',
+    body: `<p><strong>What it is:</strong> When a sub does trigger the reverse invite, how many contractors do they invite? Most subs work with 2-5 contractors simultaneously. One is already on OG Build (the one who invited them), so they invite the others.</p>
+<p><strong>How it affects growth:</strong> Each invite is another shot at converting a new contractor. 2 invites at 20% conversion = 0.4 new contractors. 3 invites at 20% = 0.6.</p>
+<div class="example">1 inviting sub × <strong>2 reverse invites</strong> = 2 contractors receive status links</div>
+<p><strong>What drives it:</strong> Bounded by reality. Most subs work with 2-5 contractors. You can't inflate this number. It's just how construction works.</p>
+<div class="leverage">Leverage: Low (industry-determined). Accept it as a given.</div>`
+  },
+  gcConvertRate: {
+    title: 'Invited Contractors Who Convert',
+    body: `<p><strong>What it is:</strong> When a contractor receives a reverse-invite status link from one of their subs, what percentage signs up for an account?</p>
+<p><strong>How it affects growth:</strong> This is the "close rate" of the viral loop. Remember, these contractors are tapping a link and seeing LIVE work status from a sub they actually work with. This is not a cold landing page (2-5% conversion). It's a warm, data-backed introduction.</p>
+<div class="example">2 invited contractors × <strong>20% conversion</strong> = 0.4 new contractors</div>
+<p><strong>What drives it:</strong> How good the status page is. Does it show real, current data? Does the "See all your projects" CTA feel natural? Is "free forever" believable? The contractor needs to think: "If I had this for ALL my subs..." That thought is the conversion.</p>
+<div class="leverage">Leverage: Medium. Better status page design and clearer value proposition on the signup CTA.</div>`
+  },
+  seed1: {
+    title: 'Seed Contractors: Months 4-6',
+    body: `<p><strong>What it is:</strong> New contractors acquired through direct outreach, sales, content marketing, or word of mouth per month during months 4-6. Months 1-3 are pilot only (just Oleg).</p>
+<p><strong>How it affects growth:</strong> Seed contractors are the fuel that starts the viral flywheel. Each one generates viral contractors on top through the loop. More seeds = more viral output.</p>
+<p><strong>What drives it:</strong> Your sales effort, content marketing, local networking, industry events, and early word of mouth from Oleg's network. This is the phase where you're proving the product works and telling people about it.</p>`
+  },
+  seed2: {
+    title: 'Seed Contractors: Months 7-12',
+    body: `<p><strong>What it is:</strong> Monthly new contractor acquisition during the second half of year one. By now the product is validated and word of mouth is building.</p>
+<p><strong>How it affects growth:</strong> This is where acquisition ramps. The viral loop is running, so each seed contractor is worth more than its face value (multiplied by the viral coefficient).</p>
+<p><strong>What drives it:</strong> Referrals from happy customers, case studies from the pilot, potential first hire focused on sales/growth, partnerships with construction associations or suppliers.</p>`
+  },
+  seed3: {
+    title: 'Seed Contractors: Months 13-24',
+    body: `<p><strong>What it is:</strong> Monthly new contractor acquisition during year two. By now you have product-market fit evidence, testimonials, and potentially a small marketing budget.</p>
+<p><strong>How it affects growth:</strong> Combined with the viral multiplier, this is where compounding becomes visible. If your multiplier is 1.67x, 15 seed contractors/month effectively becomes 25.</p>
+<p><strong>What drives it:</strong> Scaling what worked in year one. Potentially paid acquisition (Google Ads for "construction project management"), partnerships, content marketing at scale.</p>`
+  },
+  seed4: {
+    title: 'Seed Contractors: Months 25-36',
+    body: `<p><strong>What it is:</strong> Monthly new contractor acquisition in year three. The brand is established in the market, the viral loop is mature, and acquisition channels are optimized.</p>
+<p><strong>How it affects growth:</strong> At this scale, even small improvements in the viral coefficient have large absolute effects because they multiply across a bigger base.</p>
+<p><strong>What drives it:</strong> Brand recognition, marketplace network effects starting to kick in, potential channel partnerships with construction supply companies or insurance providers.</p>`
+  },
+  gcProRate: {
+    title: 'Contractor Pro Conversion',
+    body: `<p><strong>What it is:</strong> After ~3 months of using the free tier, what percentage of contractors upgrade to Pro ($79/mo)? The free tier lets them run unlimited projects and tasks. Pro adds estimates, templates, health signals, customer management, and team members.</p>
+<p><strong>How it affects growth:</strong> This is your primary revenue driver. Every percentage point here directly scales MRR.</p>
+<div class="example">100 contractors after 3 months × <strong>18% conversion</strong> = 18 paying Pro users = $1,422/mo</div>
+<p><strong>What drives it:</strong> How dependent the contractor becomes on OG Build, and how clearly the Pro features save them time/money. The upgrade trigger is usually: needing to send an estimate, wanting the health dashboard, or adding a team member.</p>
+<p><strong>Industry benchmark:</strong> B2B SaaS freemium conversion typically ranges 5-15%. Construction software with a generous free tier and sticky usage could see 15-25%.</p>`
+  },
+  gcBizRate: {
+    title: 'Pro to Business Upgrade',
+    body: `<p><strong>What it is:</strong> Of contractors on the Pro plan, what percentage upgrades to Business ($199/mo) after ~6 months? Business adds unlimited team members, analytics, sub performance history, custom branding, and API access.</p>
+<p><strong>How it affects growth:</strong> Higher ARPU from your most engaged customers. These are the contractors running 10+ projects with multiple PMs who need team features and analytics.</p>
+<div class="example">18 Pro users after 6 months × <strong>12% upgrade</strong> = ~2 Business users = $398/mo additional</div>
+<p><strong>What drives it:</strong> Team size. A solo contractor stays on Pro. A contractor who hires a PM or office manager needs Business for the extra seats. Growth of the contractor's business drives this upgrade.</p>`
+  },
+  subProRate: {
+    title: 'Sub Pro Conversion',
+    body: `<p><strong>What it is:</strong> After ~3 months of using the free tier, what percentage of subcontractors (who saved accounts) upgrade to Sub Pro ($29/mo)? Sub Pro adds crew management, subcontracting tools, job history, and financial tracking.</p>
+<p><strong>How it affects growth:</strong> Secondary revenue stream. Lower price point but larger user base. Subs who manage crews and subcontract work are running businesses and will pay for tools.</p>
+<div class="example">40 saved subs after 3 months × <strong>6% conversion</strong> = ~2 paying sub users = $58/mo</div>
+<p><strong>What drives it:</strong> Whether the sub manages a crew or subcontracts work. Sole proprietors who just update their own tasks stay free forever. Subs with 3-5 crew members need the crew management feature and will pay.</p>
+<p><strong>Note:</strong> This conversion rate is intentionally low. Most subs are sole proprietors. The ones who pay are the ones running sub-businesses.</p>`
+  },
+  churn: {
+    title: 'Monthly Churn (Paid Users)',
+    body: `<p><strong>What it is:</strong> What percentage of paying users cancel their subscription each month. 4% monthly churn means ~40% annual churn (some users stay for years, some leave quickly).</p>
+<p><strong>How it affects growth:</strong> Churn is the leak in your bucket. High churn means you need to acquire faster just to stay flat. Low churn means revenue compounds. At 4% monthly churn, the average paid user stays ~25 months.</p>
+<div class="example">At 4% monthly churn: 100 paying users lose 4 per month<br>Need 4+ new conversions/month just to stay even</div>
+<p><strong>What drives it:</strong> Product stickiness. If the contractor's subs are all on OG Build and they're sending estimates through it, switching cost is high (churn drops). If they only use it for task tracking, switching is easy (churn stays high).</p>
+<p><strong>Industry benchmark:</strong> SMB SaaS monthly churn: 3-7%. Construction software with high switching costs: 2-4%. The estimates + templates features are designed to increase stickiness and reduce churn.</p>`
+  }
+};
+
+function showHelp(id) {
+  const h = helpContent[id];
+  if (!h) return;
+  document.getElementById('helpTitle').textContent = h.title;
+  document.getElementById('helpBody').innerHTML = h.body;
+  document.getElementById('helpModal').classList.add('open');
+}
+function closeHelp() {
+  document.getElementById('helpModal').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHelp(); });
 
 // Initialize
 setScenario('moderate');
