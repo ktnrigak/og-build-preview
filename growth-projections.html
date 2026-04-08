@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OG Build — Growth & Revenue Projections (36 Months)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --accent: #c17f2f; --accent-hover: #a66b24;
+  --accent-tint: rgba(193,127,47,0.08);
+  --bg: #f6f5f2; --bg-card: #fff; --bg-dark: #1a1d23;
+  --bg-muted: #edebe7; --border: #e2dfda; --border-light: #eae8e3;
+  --text: #1a1d23; --text-secondary: #6b6560; --text-muted: #9c968e;
+  --green: #2d8a52; --red: #c4382e; --blue: #3b7dd8;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); }
+
+.hero { background:var(--bg-dark); padding:40px 24px 32px; text-align:center; }
+.hero .logo { color:var(--accent); font-size:20px; font-weight:700; margin-bottom:12px; }
+.hero .logo .dim { color:#6b7280; font-weight:400; }
+.hero h1 { color:#fff; font-size:26px; font-weight:700; max-width:600px; margin:0 auto 6px; }
+.hero p { color:#9ca3af; font-size:14px; max-width:480px; margin:0 auto; }
+
+.container { max-width:960px; margin:0 auto; padding:0 24px; }
+
+/* Scenario controls */
+.controls { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:20px; margin-top:-20px; position:relative; z-index:10; box-shadow:var(--shadow-lg); }
+.scenario-tabs { display:flex; gap:6px; margin-bottom:16px; }
+.scenario-tab { flex:1; padding:10px 8px; border-radius:8px; font-size:13px; font-weight:600; text-align:center; cursor:pointer; border:1px solid var(--border); background:var(--bg); color:var(--text-secondary); transition:all 0.15s; font-family:inherit; }
+.scenario-tab:hover { border-color:var(--accent); color:var(--accent); }
+.scenario-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.scenario-tab .tag { display:block; font-size:10px; font-weight:400; margin-top:2px; opacity:0.7; }
+
+.params-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media (max-width:640px) { .params-grid { grid-template-columns:1fr; } }
+.param { display:flex; align-items:center; gap:8px; }
+.param label { font-size:11px; color:var(--text-secondary); flex:1; min-width:0; }
+.param input[type="range"] { width:80px; accent-color:var(--accent); }
+.param .value { font-size:12px; font-family:'DM Mono'; font-weight:600; color:var(--accent); min-width:42px; text-align:right; }
+.params-divider { grid-column:1/-1; height:1px; background:var(--border-light); margin:4px 0; }
+.params-section { grid-column:1/-1; font-size:10px; font-weight:600; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; margin-top:4px; }
+
+/* Sections */
+.section { padding:32px 0; }
+.section + .section { border-top:1px solid var(--border); }
+.section-label { font-size:11px; font-weight:600; color:var(--accent); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
+.section h2 { font-size:20px; font-weight:700; margin-bottom:2px; }
+.section .subtitle { font-size:13px; color:var(--text-secondary); margin-bottom:20px; }
+
+.chart-box { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:20px; margin-bottom:16px; }
+.chart-box h3 { font-size:14px; font-weight:600; margin-bottom:12px; }
+.chart-box canvas { max-height:300px; }
+
+.stat-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
+.stat { background:var(--bg-card); border:1px solid var(--border-light); border-radius:10px; padding:12px; text-align:center; }
+.stat .num { font-size:24px; font-weight:700; font-family:'DM Mono'; }
+.stat .num.accent { color:var(--accent); }
+.stat .num.green { color:var(--green); }
+.stat .num.blue { color:var(--blue); }
+.stat .lab { font-size:10px; color:var(--text-secondary); margin-top:2px; }
+
+.note { background:var(--bg-muted); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--text-secondary); line-height:1.5; margin-bottom:16px; border-left:3px solid var(--accent); }
+
+.k-display { display:inline-flex; align-items:center; gap:6px; background:var(--bg-card); border:1px solid var(--border-light); border-radius:8px; padding:8px 14px; margin-bottom:16px; }
+.k-display .k-val { font-size:20px; font-weight:700; font-family:'DM Mono'; }
+.k-display .k-label { font-size:11px; color:var(--text-secondary); }
+
+.footer { padding:20px 24px; text-align:center; font-size:10px; color:var(--text-muted); border-top:1px solid var(--border); margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="logo">OG<span class="dim"> Build</span></div>
+<h1>Growth & Revenue Projections</h1>
+<p>Starting from 1 contractor. 36-month interactive model with viral flywheel.</p>
+</div>
+
+<div class="container">
+
+<div class="controls">
+<div class="scenario-tabs">
+<button class="scenario-tab" onclick="setScenario('conservative')">Conservative<span class="tag">Slow adoption</span></button>
+<button class="scenario-tab active" onclick="setScenario('moderate')">Moderate<span class="tag">Base case</span></button>
+<button class="scenario-tab" onclick="setScenario('optimistic')">Optimistic<span class="tag">Strong PMF</span></button>
+</div>
+
+<div class="params-grid">
+<div class="params-section">Viral Loop</div>
+<div class="param"><label>Subs per contractor</label><input type="range" id="p_subsPerGC" min="4" max="20" step="1"><span class="value" id="v_subsPerGC"></span></div>
+<div class="param"><label>Subs who save accounts</label><input type="range" id="p_subSaveRate" min="10" max="70" step="5"><span class="value" id="v_subSaveRate"></span></div>
+<div class="param"><label>Saved subs who reverse-invite</label><input type="range" id="p_reverseInviteRate" min="5" max="50" step="5"><span class="value" id="v_reverseInviteRate"></span></div>
+<div class="param"><label>Reverse invites per sub</label><input type="range" id="p_invitesPerSub" min="1" max="4" step="1"><span class="value" id="v_invitesPerSub"></span></div>
+<div class="param"><label>Invited contractors who convert</label><input type="range" id="p_gcConvertRate" min="5" max="40" step="5"><span class="value" id="v_gcConvertRate"></span></div>
+
+<div class="params-divider"></div>
+<div class="params-section">Acquisition (seed contractors/month)</div>
+<div class="param"><label>Months 4-6</label><input type="range" id="p_seed1" min="1" max="10" step="1"><span class="value" id="v_seed1"></span></div>
+<div class="param"><label>Months 7-12</label><input type="range" id="p_seed2" min="2" max="20" step="1"><span class="value" id="v_seed2"></span></div>
+<div class="param"><label>Months 13-24</label><input type="range" id="p_seed3" min="5" max="30" step="1"><span class="value" id="v_seed3"></span></div>
+<div class="param"><label>Months 25-36</label><input type="range" id="p_seed4" min="5" max="50" step="1"><span class="value" id="v_seed4"></span></div>
+
+<div class="params-divider"></div>
+<div class="params-section">Monetization</div>
+<div class="param"><label>Contractor Pro conversion (after 3 mo)</label><input type="range" id="p_gcProRate" min="5" max="35" step="1"><span class="value" id="v_gcProRate"></span></div>
+<div class="param"><label>Pro → Business upgrade (after 6 mo)</label><input type="range" id="p_gcBizRate" min="3" max="25" step="1"><span class="value" id="v_gcBizRate"></span></div>
+<div class="param"><label>Sub Pro conversion (after 3 mo)</label><input type="range" id="p_subProRate" min="2" max="15" step="1"><span class="value" id="v_subProRate"></span></div>
+<div class="param"><label>Monthly churn (paid users)</label><input type="range" id="p_churn" min="1" max="8" step="1"><span class="value" id="v_churn"></span></div>
+</div>
+</div>
+
+<!-- K factor display -->
+<div style="text-align:center;margin-top:16px">
+<div class="k-display"><span class="k-label">Viral Coefficient K =</span><span class="k-val" id="kValue">0.40</span></div>
+<div class="k-display"><span class="k-label">Multiplier per seed =</span><span class="k-val" id="multValue">1.67x</span></div>
+</div>
+
+<!-- GROWTH -->
+<div class="section">
+<div class="section-label">User Growth</div>
+<h2>Contractors and subcontractors over 36 months</h2>
+<div class="subtitle">Starting from Oleg. Each manually acquired contractor generates additional contractors for free via the viral loop.</div>
+<div class="chart-box"><h3>Total Users</h3><canvas id="growthChart"></canvas></div>
+<div id="growthStats" class="stat-row"></div>
+<div class="chart-box"><h3>Monthly Acquisition: Seed vs. Viral</h3><canvas id="acqChart"></canvas></div>
+</div>
+
+<!-- REVENUE -->
+<div class="section">
+<div class="section-label">Revenue</div>
+<h2>Monthly recurring revenue over 36 months</h2>
+<div class="subtitle">Freemium model. Contractors convert to Pro ($79/mo) after ~3 months. Top contractors upgrade to Business ($199/mo). Subs convert to Pro ($29/mo).</div>
+<div class="chart-box"><h3>Monthly Recurring Revenue (MRR)</h3><canvas id="mrrChart"></canvas></div>
+<div id="revenueStats" class="stat-row"></div>
+<div class="chart-box"><h3>MRR Breakdown by Source</h3><canvas id="breakdownChart"></canvas></div>
+<div class="chart-box"><h3>Annual Run Rate (ARR)</h3><canvas id="arrChart"></canvas></div>
+</div>
+
+<!-- UNIT ECONOMICS -->
+<div class="section">
+<div class="section-label">Unit Economics</div>
+<h2>What one contractor is worth</h2>
+<div id="unitStats" class="stat-row"></div>
+<div class="note"><strong>The viral loop advantage:</strong> Without the flywheel, you pay full CAC for every contractor. With it, your effective acquisition cost drops proportionally to the viral multiplier. The viral subs and contractors are free. Your only marginal cost is Twilio SMS (~$0.008/message).</div>
+</div>
+
+</div>
+
+<div class="footer">
+OG Build — Interactive Growth Projections · April 2026 · Starting from 1 contractor<br>
+All projections are estimates. Drag the sliders to model different scenarios.
+</div>
+
+<script>
+// ═══ SCENARIOS ═══
+const scenarios = {
+  conservative: {
+    subsPerGC: 7, subSaveRate: 25, reverseInviteRate: 15, invitesPerSub: 1, gcConvertRate: 10,
+    seed1: 2, seed2: 4, seed3: 8, seed4: 12,
+    gcProRate: 12, gcBizRate: 6, subProRate: 3, churn: 6
+  },
+  moderate: {
+    subsPerGC: 10, subSaveRate: 40, reverseInviteRate: 25, invitesPerSub: 2, gcConvertRate: 20,
+    seed1: 3, seed2: 8, seed3: 15, seed4: 22,
+    gcProRate: 18, gcBizRate: 12, subProRate: 6, churn: 4
+  },
+  optimistic: {
+    subsPerGC: 14, subSaveRate: 55, reverseInviteRate: 40, invitesPerSub: 3, gcConvertRate: 30,
+    seed1: 5, seed2: 12, seed3: 22, seed4: 35,
+    gcProRate: 25, gcBizRate: 18, subProRate: 10, churn: 3
+  }
+};
+
+const paramIds = ['subsPerGC','subSaveRate','reverseInviteRate','invitesPerSub','gcConvertRate',
+  'seed1','seed2','seed3','seed4','gcProRate','gcBizRate','subProRate','churn'];
+
+const paramFormats = {
+  subsPerGC: v => v, subSaveRate: v => v+'%', reverseInviteRate: v => v+'%',
+  invitesPerSub: v => v, gcConvertRate: v => v+'%',
+  seed1: v => v+'/mo', seed2: v => v+'/mo', seed3: v => v+'/mo', seed4: v => v+'/mo',
+  gcProRate: v => v+'%', gcBizRate: v => v+'%', subProRate: v => v+'%', churn: v => v+'%'
+};
+
+let currentScenario = 'moderate';
+let charts = {};
+
+function setScenario(name) {
+  currentScenario = name;
+  const s = scenarios[name];
+  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.scenario-tab[onclick="setScenario('${name}')"]`).classList.add('active');
+  paramIds.forEach(id => {
+    document.getElementById('p_'+id).value = s[id];
+    document.getElementById('v_'+id).textContent = paramFormats[id](s[id]);
+  });
+  runModel();
+}
+
+function getParams() {
+  const p = {};
+  paramIds.forEach(id => { p[id] = parseInt(document.getElementById('p_'+id).value); });
+  return p;
+}
+
+// ═══ MODEL ═══
+function runModel() {
+  const p = getParams();
+  const K = (p.subsPerGC * (p.subSaveRate/100) * (p.reverseInviteRate/100) * p.invitesPerSub * (p.gcConvertRate/100));
+  const mult = K < 1 ? 1/(1-K) : 99; // cap display
+
+  document.getElementById('kValue').textContent = K.toFixed(2);
+  document.getElementById('kValue').style.color = K >= 1 ? '#2d8a52' : K >= 0.7 ? '#d49a1f' : '#c17f2f';
+  document.getElementById('multValue').textContent = K < 1 ? mult.toFixed(2)+'x' : '∞ (exponential)';
+
+  const months = 36;
+  const labels = Array.from({length:months}, (_,i) => {
+    const d = new Date(2026, 4+i, 1);
+    return d.toLocaleDateString('en-US',{month:'short',year:'2-digit'});
+  });
+
+  function seedGCs(m) {
+    if (m <= 3) return m === 1 ? 1 : 0;
+    if (m <= 6) return p.seed1;
+    if (m <= 12) return p.seed2;
+    if (m <= 24) return p.seed3;
+    return p.seed4;
+  }
+
+  let cumGCs=0, cumSubs=0;
+  let payGCPro=0, payGCBiz=0, paySubPro=0;
+  let gcCohorts=[], subCohorts=[];
+
+  const d = {
+    seedGC:[], viralGC:[], cumGC:[], cumSub:[], cumTotal:[],
+    mrrPro:[], mrrBiz:[], mrrSub:[], mrrTotal:[], arr:[]
+  };
+
+  for (let m=1; m<=months; m++) {
+    const seed = seedGCs(m);
+    const viralRamp = m <= 3 ? 0 : Math.min(1, (m-3)/4);
+    const viral = Math.round(seed * (mult-1) * viralRamp * (K < 1 ? 1 : Math.min(3, 1+m*0.05)));
+
+    const newGCs = seed + viral;
+    cumGCs += newGCs;
+    const newSubs = newGCs * p.subsPerGC;
+    const newSaved = Math.round(newSubs * p.subSaveRate/100);
+    cumSubs += newSubs;
+
+    gcCohorts.push({m, n:newGCs});
+    subCohorts.push({m, n:newSaved});
+
+    let newPro=0;
+    for (const c of gcCohorts) { if (m-c.m===3) newPro += Math.round(c.n * p.gcProRate/100); }
+    payGCPro = Math.round(payGCPro*(1-p.churn/100)) + newPro;
+
+    let newBiz=0;
+    for (const c of gcCohorts) { if (m-c.m===9) newBiz += Math.round(c.n * p.gcProRate/100 * p.gcBizRate/100); }
+    payGCBiz = Math.round(payGCBiz*(1-p.churn/100)) + newBiz;
+    payGCPro = Math.max(0, payGCPro - newBiz);
+
+    let newSubPro=0;
+    for (const c of subCohorts) { if (m-c.m===3) newSubPro += Math.round(c.n * p.subProRate/100); }
+    paySubPro = Math.round(paySubPro*(1-p.churn/100)) + newSubPro;
+
+    const rPro=payGCPro*79, rBiz=payGCBiz*199, rSub=paySubPro*29, rTot=rPro+rBiz+rSub;
+
+    d.seedGC.push(seed); d.viralGC.push(viral);
+    d.cumGC.push(cumGCs); d.cumSub.push(cumSubs);
+    d.cumTotal.push(cumGCs+cumSubs);
+    d.mrrPro.push(rPro); d.mrrBiz.push(rBiz); d.mrrSub.push(rSub);
+    d.mrrTotal.push(rTot); d.arr.push(rTot*12);
+  }
+
+  // Update charts
+  updateChart('growthChart', 'line', labels, [
+    {label:'Total Users',data:d.cumTotal,borderColor:'#c17f2f',backgroundColor:'rgba(193,127,47,0.08)',fill:true,tension:.3,borderWidth:2.5},
+    {label:'Subcontractors',data:d.cumSub,borderColor:'#2d8a52',backgroundColor:'rgba(45,138,82,0.06)',fill:true,tension:.3,borderWidth:2},
+    {label:'Contractors',data:d.cumGC,borderColor:'#3b7dd8',backgroundColor:'rgba(59,125,216,0.06)',fill:true,tension:.3,borderWidth:2}
+  ], {y:{beginAtZero:true,ticks:{callback:v=>v.toLocaleString()}}});
+
+  updateChart('acqChart', 'bar', labels, [
+    {label:'Seed (manual)',data:d.seedGC,backgroundColor:'#3b7dd8',borderRadius:2},
+    {label:'Viral (flywheel)',data:d.viralGC,backgroundColor:'#c17f2f',borderRadius:2}
+  ], {x:{stacked:true},y:{stacked:true,beginAtZero:true}});
+
+  updateChart('mrrChart', 'line', labels, [
+    {label:'Total MRR',data:d.mrrTotal,borderColor:'#c17f2f',backgroundColor:'rgba(193,127,47,0.08)',fill:true,tension:.3,borderWidth:2.5}
+  ], {y:{beginAtZero:true,ticks:{callback:v=>'$'+v.toLocaleString()}}});
+
+  updateChart('breakdownChart', 'bar', labels, [
+    {label:'Contractor Pro ($79)',data:d.mrrPro,backgroundColor:'#3b7dd8',borderRadius:2},
+    {label:'Contractor Biz ($199)',data:d.mrrBiz,backgroundColor:'#1a1d23',borderRadius:2},
+    {label:'Sub Pro ($29)',data:d.mrrSub,backgroundColor:'#2d8a52',borderRadius:2}
+  ], {x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{callback:v=>'$'+v.toLocaleString()}}});
+
+  updateChart('arrChart', 'line', labels, [
+    {label:'ARR',data:d.arr,borderColor:'#c17f2f',backgroundColor:'rgba(193,127,47,0.05)',fill:true,tension:.3,borderWidth:2.5,pointRadius:0}
+  ], {y:{beginAtZero:true,ticks:{callback:v=>v>=1e6?'$'+(v/1e6).toFixed(1)+'M':v>=1e3?'$'+(v/1e3).toFixed(0)+'K':'$'+v}}});
+
+  // Stats
+  const m12=11, m24=23, m36=35;
+  const totalPaid = payGCPro + payGCBiz + paySubPro;
+
+  document.getElementById('growthStats').innerHTML = `
+    <div class="stat"><div class="num accent">${d.cumGC[m12]}</div><div class="lab">Contractors 12 mo</div></div>
+    <div class="stat"><div class="num accent">${d.cumGC[m24]}</div><div class="lab">Contractors 24 mo</div></div>
+    <div class="stat"><div class="num accent">${d.cumGC[m36]}</div><div class="lab">Contractors 36 mo</div></div>
+    <div class="stat"><div class="num green">${d.cumSub[m36].toLocaleString()}</div><div class="lab">Subcontractors 36 mo</div></div>
+    <div class="stat"><div class="num blue">${d.cumTotal[m36].toLocaleString()}</div><div class="lab">Total users 36 mo</div></div>`;
+
+  document.getElementById('revenueStats').innerHTML = `
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m12].toLocaleString()}</div><div class="lab">MRR at 12 mo</div></div>
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m24].toLocaleString()}</div><div class="lab">MRR at 24 mo</div></div>
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m36].toLocaleString()}</div><div class="lab">MRR at 36 mo</div></div>
+    <div class="stat"><div class="num green">$${d.arr[m36].toLocaleString()}</div><div class="lab">ARR at 36 mo</div></div>`;
+
+  document.getElementById('unitStats').innerHTML = `
+    <div class="stat"><div class="num accent">${totalPaid}</div><div class="lab">Paying users at 36 mo</div></div>
+    <div class="stat"><div class="num green">$${totalPaid > 0 ? Math.round(d.mrrTotal[m36]/totalPaid) : 0}</div><div class="lab">ARPU (paying users)</div></div>
+    <div class="stat"><div class="num blue">${(mult-1).toFixed(2)}</div><div class="lab">Free contractors per acquired</div></div>
+    <div class="stat"><div class="num accent">${Math.round((1-1/mult)*100)}%</div><div class="lab">CAC reduction from viral</div></div>`;
+}
+
+function updateChart(id, type, labels, datasets, scales) {
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id), {
+    type, data: {labels, datasets: datasets.map(ds => ({...ds, pointRadius: type==='line'?0:undefined, pointHoverRadius: type==='line'?4:undefined}))},
+    options: {
+      responsive:true, animation:{duration:300},
+      plugins:{legend:{position:'top',labels:{font:{size:11}}},
+        tooltip:{callbacks:{label:ctx=>{const v=ctx.parsed.y;return `${ctx.dataset.label}: ${scales?.y?.ticks?.callback?.(v)??v.toLocaleString()}`}}}},
+      scales: scales || {}
+    }
+  });
+}
+
+// ═══ WIRE UP SLIDERS ═══
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6b6560';
+
+paramIds.forEach(id => {
+  const el = document.getElementById('p_'+id);
+  el.addEventListener('input', () => {
+    document.getElementById('v_'+id).textContent = paramFormats[id](parseInt(el.value));
+    // Clear active scenario tab since user customized
+    document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+    runModel();
+  });
+});
+
+// Initialize
+setScenario('moderate');
+</script>
+</body>
+</html>
