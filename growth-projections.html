@@ -71,6 +71,19 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 
 .footer { padding:20px 24px; text-align:center; font-size:10px; color:var(--text-muted); border-top:1px solid var(--border); margin-top:8px; }
 
+/* Intro block */
+.intro-block { background:var(--bg-card); border:1px solid var(--border-light); border-left:3px solid var(--accent); border-radius:12px; padding:20px 24px; margin-top:-20px; position:relative; z-index:9; box-shadow:var(--shadow-sm); margin-bottom:20px; }
+.intro-block h3 { font-size:15px; font-weight:700; margin-bottom:10px; color:var(--text); }
+.intro-block p { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:8px; }
+.intro-block p:last-child { margin-bottom:0; }
+.intro-block strong { color:var(--text); font-weight:600; }
+.intro-block .tool-note { font-size:11px; color:var(--text-muted); margin-top:10px; padding-top:10px; border-top:1px solid var(--border-light); }
+.intro-block + .controls { margin-top:0; }
+
+.scenario-intro { font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.5; }
+.k-intro { font-size:12px; color:var(--text-secondary); max-width:580px; margin:0 auto 12px; line-height:1.5; text-align:center; }
+.section-intro-extra { font-size:12px; color:var(--text-secondary); margin-bottom:16px; line-height:1.5; }
+
 /* Help tooltips */
 .help-btn { display:inline-flex; align-items:center; justify-content:center; width:15px; height:15px; border-radius:50%; background:var(--bg-muted); border:1px solid var(--border); font-size:9px; font-weight:700; color:var(--text-muted); cursor:pointer; flex-shrink:0; margin-left:2px; line-height:1; }
 .help-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
@@ -100,7 +113,16 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 
 <div class="container">
 
+<div class="intro-block">
+<h3>How to use this tool</h3>
+<p><strong>What this is:</strong> An interactive 36-month financial model for OG Build, a two-sided construction operations platform. It projects user growth and SaaS revenue starting from a single founding contractor, assuming no paid marketing.</p>
+<p><strong>How to use it:</strong> Tap Conservative, Moderate, or Optimistic to load preset scenarios. Drag any slider to customize your own assumptions. Tap the (?) next to any parameter to see what it means, how it affects growth, and where you have leverage.</p>
+<p><strong>What to look for:</strong> The viral coefficient (K) below the controls tells you whether the model sustains its own growth. The charts below show cumulative users, monthly recurring revenue, and annual run rate. Every number updates instantly as you change inputs.</p>
+<div class="tool-note">Default scenario is Moderate. Scroll through the page top to bottom for the full story: growth, revenue, unit economics.</div>
+</div>
+
 <div class="controls">
+<div class="scenario-intro">Pick a starting scenario below, then customize any parameter. Moderate is the default base case.</div>
 <div class="scenario-tabs">
 <button class="scenario-tab" onclick="setScenario('conservative')">Conservative<span class="tag">Slow adoption</span></button>
 <button class="scenario-tab active" onclick="setScenario('moderate')">Moderate<span class="tag">Base case</span></button>
@@ -140,7 +162,8 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 </div>
 
 <!-- K factor display -->
-<div style="text-align:center;margin-top:16px">
+<div style="text-align:center;margin-top:20px">
+<div class="k-intro">Every contractor we acquire generates additional contractors for free through the viral loop. K measures how many new contractors each existing one produces. The multiplier shows the total compounding effect.</div>
 <div class="k-display"><span class="k-label">Viral Coefficient K =</span><span class="k-val" id="kValue">0.40</span></div>
 <div class="k-display"><span class="k-label">Multiplier per seed =</span><span class="k-val" id="multValue">1.67x</span></div>
 </div>
@@ -149,7 +172,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="section">
 <div class="section-label">User Growth</div>
 <h2>Contractors and subcontractors over 36 months</h2>
-<div class="subtitle">Starting from Oleg. Each manually acquired contractor generates additional contractors for free via the viral loop.</div>
+<div class="subtitle">This chart shows how the user base compounds over 36 months, starting from a single founding contractor. The stacked acquisition chart below breaks out how many contractors come from direct sales (seed) versus the viral reverse-invite loop.</div>
 <div class="chart-box"><h3>Total Users</h3><canvas id="growthChart"></canvas></div>
 <div id="growthStats" class="stat-row"></div>
 <div class="chart-box"><h3>Monthly Acquisition: Seed vs. Viral</h3><canvas id="acqChart"></canvas></div>
@@ -159,7 +182,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="section">
 <div class="section-label">Revenue</div>
 <h2>Monthly recurring revenue over 36 months</h2>
-<div class="subtitle">Freemium model. Contractors convert to Pro ($79/mo) after ~3 months. Top contractors upgrade to Business ($199/mo). Subs convert to Pro ($29/mo).</div>
+<div class="subtitle">OG Build is free for unlimited projects and subs, so the model assumes contractors upgrade to Pro only after ~3 months of dependent usage. Pro is $79/mo, Business is $199/mo, and Sub Pro is $29/mo for subcontractors who manage crews. The breakdown chart shows which tier drives MRR as the base matures.</div>
 <div class="chart-box"><h3>Monthly Recurring Revenue (MRR)</h3><canvas id="mrrChart"></canvas></div>
 <div id="revenueStats" class="stat-row"></div>
 <div class="chart-box"><h3>MRR Breakdown by Source</h3><canvas id="breakdownChart"></canvas></div>
@@ -170,6 +193,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="section">
 <div class="section-label">Unit Economics</div>
 <h2>What one contractor is worth</h2>
+<div class="section-intro-extra">These metrics translate the model into per-contractor economics. The key number is the CAC reduction from the viral loop: because viral contractors cost nothing to acquire, every dollar of sales effort is worth more than its face value. ARPU (average revenue per paying user) anchors the revenue story.</div>
 <div id="unitStats" class="stat-row"></div>
 <div class="note"><strong>The viral loop advantage:</strong> Without the flywheel, you pay full CAC for every contractor. With it, your effective acquisition cost drops proportionally to the viral multiplier. The viral subs and contractors are free. Your only marginal cost is Twilio SMS (~$0.008/message).</div>
 </div>
