@@ -108,25 +108,32 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="hero">
 <div class="logo">OG<span class="dim"> Build</span></div>
 <h1>Growth & Revenue Projections</h1>
-<p>Starting from 1 contractor. 36-month interactive model with viral flywheel.</p>
+<p>Starting from 1 contractor. 3-year financial projection you can customize.</p>
 </div>
 
 <div class="container">
 
 <div class="intro-block">
+<h3>The business in plain English</h3>
+<p>OG Build is software for construction. General contractors use it to manage their projects and coordinate with the subcontractors they hire. Subcontractors use it to see what work they have across all their contractors in one place. The software is free for basic use. Contractors pay when they want features like customer estimates, templates, and a dashboard showing which projects need attention.</p>
+<p>The business grows in a self-reinforcing way. Every contractor who signs up invites their subs. Those subs also work for OTHER contractors who are not on the platform yet, and they invite those contractors too. Each new contractor then invites their own subs, and the cycle continues. We do not pay for marketing. The product spreads because people use it as part of their normal workday.</p>
+<p>This page lets you test different assumptions about how fast that spread happens and what it produces in users and revenue over 3 years.</p>
+</div>
+
+<div class="intro-block">
 <h3>How to use this tool</h3>
-<p><strong>What this is:</strong> An interactive 36-month financial model for OG Build, a two-sided construction operations platform. It projects user growth and SaaS revenue starting from a single founding contractor, assuming no paid marketing.</p>
-<p><strong>How to use it:</strong> Tap Conservative, Moderate, or Optimistic to load preset scenarios. Drag any slider to customize your own assumptions. Tap the (?) next to any parameter to see what it means, how it affects growth, and where you have leverage.</p>
-<p><strong>What to look for:</strong> The viral coefficient (K) below the controls tells you whether the model sustains its own growth. The charts below show cumulative users, monthly recurring revenue, and annual run rate. Every number updates instantly as you change inputs.</p>
-<div class="tool-note">Default scenario is Moderate. Scroll through the page top to bottom for the full story: growth, revenue, unit economics.</div>
+<p><strong>1. Pick a scenario.</strong> Tap Conservative, Moderate, or Optimistic to load a preset. Moderate is the default and represents our most likely case.</p>
+<p><strong>2. Adjust anything.</strong> Drag any slider to change an assumption. The charts update instantly. Tap the (?) next to any slider to learn what it means.</p>
+<p><strong>3. Read the three sections.</strong> User Growth shows how many people are using the software. Revenue shows how much money the business makes. Unit Economics translates the whole model into the value of a single customer.</p>
+<div class="tool-note">Numbers update in real time. You can't break anything — tap reset (the scenario buttons) to return to presets.</div>
 </div>
 
 <div class="controls">
-<div class="scenario-intro">Pick a starting scenario below, then customize any parameter. Moderate is the default base case.</div>
+<div class="scenario-intro">Pick a starting scenario below, then customize any assumption. Moderate is our best estimate.</div>
 <div class="scenario-tabs">
-<button class="scenario-tab" onclick="setScenario('conservative')">Conservative<span class="tag">Slow adoption</span></button>
-<button class="scenario-tab active" onclick="setScenario('moderate')">Moderate<span class="tag">Base case</span></button>
-<button class="scenario-tab" onclick="setScenario('optimistic')">Optimistic<span class="tag">Strong PMF</span></button>
+<button class="scenario-tab" onclick="setScenario('conservative')">Conservative<span class="tag">Slow growth</span></button>
+<button class="scenario-tab active" onclick="setScenario('moderate')">Moderate<span class="tag">Most likely</span></button>
+<button class="scenario-tab" onclick="setScenario('optimistic')">Optimistic<span class="tag">Growing fast</span></button>
 </div>
 
 <div class="params-grid">
@@ -163,39 +170,76 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 
 <!-- K factor display -->
 <div style="text-align:center;margin-top:20px">
-<div class="k-intro">Every contractor we acquire generates additional contractors for free through the viral loop. K measures how many new contractors each existing one produces. The multiplier shows the total compounding effect.</div>
-<div class="k-display"><span class="k-label">Viral Coefficient K =</span><span class="k-val" id="kValue">0.40</span></div>
-<div class="k-display"><span class="k-label">Multiplier per seed =</span><span class="k-val" id="multValue">1.67x</span></div>
+<div class="k-intro">Every contractor we sign up leads to additional contractors joining for free, because their subs tell other contractors about the software. The two numbers below show how strong that effect is with your current settings.</div>
+<div class="k-display"><span class="k-label">Free contractors per sign-up:</span><span class="k-val" id="kValue">0.40</span></div>
+<div class="k-display"><span class="k-label">Total contractors per sign-up (with compounding):</span><span class="k-val" id="multValue">1.67x</span></div>
 </div>
 
 <!-- GROWTH -->
 <div class="section">
 <div class="section-label">User Growth</div>
-<h2>Contractors and subcontractors over 36 months</h2>
-<div class="subtitle">This chart shows how the user base compounds over 36 months, starting from a single founding contractor. The stacked acquisition chart below breaks out how many contractors come from direct sales (seed) versus the viral reverse-invite loop.</div>
-<div class="chart-box"><h3>Total Users</h3><canvas id="growthChart"></canvas></div>
+<h2>How many people use the software over 3 years</h2>
+<div class="subtitle">This chart shows how the user base grows over 3 years, starting from one founding contractor. Contractors invite their subs. Those subs tell their other contractors. Those contractors sign up and invite more subs. That is the cycle that produces the curve you see below.</div>
+<div class="chart-box"><h3>Total users (contractors + subs)</h3><canvas id="growthChart"></canvas></div>
 <div id="growthStats" class="stat-row"></div>
-<div class="chart-box"><h3>Monthly Acquisition: Seed vs. Viral</h3><canvas id="acqChart"></canvas></div>
+<div class="chart-box"><h3>New contractors each month: direct outreach vs. word of mouth</h3><canvas id="acqChart"></canvas></div>
 </div>
 
 <!-- REVENUE -->
 <div class="section">
 <div class="section-label">Revenue</div>
-<h2>Monthly recurring revenue over 36 months</h2>
-<div class="subtitle">OG Build is free for unlimited projects and subs, so the model assumes contractors upgrade to Pro only after ~3 months of dependent usage. Pro is $79/mo, Business is $199/mo, and Sub Pro is $29/mo for subcontractors who manage crews. The breakdown chart shows which tier drives MRR as the base matures.</div>
-<div class="chart-box"><h3>Monthly Recurring Revenue (MRR)</h3><canvas id="mrrChart"></canvas></div>
+<h2>How much money the business makes over 3 years</h2>
+<div class="subtitle">OG Build is free for unlimited projects and subs, so contractors only start paying after ~3 months of using it daily. There are three paid plans: Contractor Pro at $79/month, Contractor Business at $199/month, and Sub Pro at $29/month for subcontractors who manage their own crews. The charts below show how those subscriptions add up as the user base grows.</div>
+<div class="chart-box"><h3>Monthly revenue</h3><canvas id="mrrChart"></canvas></div>
 <div id="revenueStats" class="stat-row"></div>
-<div class="chart-box"><h3>MRR Breakdown by Source</h3><canvas id="breakdownChart"></canvas></div>
-<div class="chart-box"><h3>Annual Run Rate (ARR)</h3><canvas id="arrChart"></canvas></div>
+<div class="chart-box"><h3>Monthly revenue breakdown by plan</h3><canvas id="breakdownChart"></canvas></div>
+<div class="chart-box"><h3>Annual revenue rate (monthly revenue × 12)</h3><canvas id="arrChart"></canvas></div>
 </div>
 
 <!-- UNIT ECONOMICS -->
 <div class="section">
-<div class="section-label">Unit Economics</div>
-<h2>What one contractor is worth</h2>
-<div class="section-intro-extra">These metrics translate the model into per-contractor economics. The key number is the CAC reduction from the viral loop: because viral contractors cost nothing to acquire, every dollar of sales effort is worth more than its face value. ARPU (average revenue per paying user) anchors the revenue story.</div>
+<div class="section-label">Customer Economics</div>
+<h2>What each customer is worth</h2>
+<div class="section-intro-extra">These four numbers translate the whole model into per-customer terms. The most important one is "free customers from word of mouth" — because referred customers cost nothing to acquire, every sales dollar goes further than it would for a normal software business.</div>
 <div id="unitStats" class="stat-row"></div>
-<div class="note"><strong>The viral loop advantage:</strong> Without the flywheel, you pay full CAC for every contractor. With it, your effective acquisition cost drops proportionally to the viral multiplier. The viral subs and contractors are free. Your only marginal cost is Twilio SMS (~$0.008/message).</div>
+<div class="note"><strong>What this means in practice:</strong> If we manually sign up 1 contractor through sales or outreach, we get additional contractors on top for free because their subs tell other contractors. Our only ongoing cost per new user is text messages (about $0.008 each from Twilio). Everything else scales cheaply because the software itself does the work.</div>
+</div>
+
+<!-- BUSINESS POTENTIAL -->
+<div class="section">
+<div class="section-label">The Big Picture</div>
+<h2>What this means for the business</h2>
+<div class="section-intro-extra">The charts above are just numbers. Here is what those numbers mean in business terms, both short and long term.</div>
+
+<div id="businessContext"></div>
+
+<div class="chart-box" style="padding:24px">
+<h3>Short term: months 1-12</h3>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">Year 1 is about proving the software works with our founding contractor, Oleg, then carefully bringing in more contractors through direct outreach. The free tier is intentionally generous so contractors can run their whole business on it before they ever pay. Most of them will stay free for the first 3 months while they get dependent on the product.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">Revenue is small in year 1. That is by design. The point of year 1 is to build a foundation of happy users who will tell other contractors about the software. Think of it like a restaurant's first 6 months: you are not trying to be profitable yet, you are trying to become the place people recommend.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">The key metric to watch in year 1 is NOT revenue. It is whether contractors invite their subs and whether those subs invite their OTHER contractors. If that cycle works, year 2 takes care of itself.</p>
+</div>
+
+<div class="chart-box" style="padding:24px">
+<h3>Long term: years 2 and 3</h3>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">Starting in year 2, the word-of-mouth cycle meaningfully contributes to growth on top of direct sales. Contractors who became dependent on the free tier in year 1 start upgrading to paid plans. Revenue begins to compound.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">By year 3, the software is becoming the default way construction work gets coordinated in its target market. Contractors who do not use it are the exception, not the rule. This is when new revenue streams become possible beyond subscriptions: a marketplace for contractors to find reliable subs, payment processing on estimates, insurance referrals, supplier partnerships. None of those are in the model above.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">A typical SaaS business at the 3-year mark trades at 4x to 8x annual revenue. Check the "Annual revenue rate" chart to see what that would value the business at in each scenario.</p>
+</div>
+
+<div class="chart-box" style="padding:24px">
+<h3>What could go wrong</h3>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">The biggest risk is not technical. It is whether subcontractors actually tell their other contractors about the software. If they do not, the word-of-mouth cycle breaks and we are back to being a normal software company paying for every customer through sales and ads. Drag the "Saved subs who reverse-invite" slider to 5% to see what that looks like.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">The second risk is that contractors never upgrade from free. The free tier is generous on purpose, but if nobody ever pays, the whole thing is a charity. Drag the "Contractor Pro conversion" slider to 5% to see that scenario.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">Both risks are testable in the first 6 months with our pilot contractor. If either one fails the test, we know early and can adjust before spending significant money.</p>
+</div>
+
+<div class="chart-box" style="padding:24px">
+<h3>How to compare this to real construction businesses</h3>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">A mid-sized general contractor running 15-20 projects typically generates $3M-$8M in annual revenue but nets only 5-8% after costs. A software business like OG Build has totally different economics: once the software is built, each new customer costs almost nothing to serve.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">That means a software business with $1M in annual revenue is worth more than a construction business with $5M in annual revenue, because the software revenue is recurring, scales without hiring, and holds its value if someone wants to buy it.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">The charts above show a range from a small but healthy business to a meaningful company in 3 years. The path beyond 3 years — marketplace, payment processing, insurance, partnerships — is where this becomes a large business.</p>
+</div>
 </div>
 
 </div>
@@ -356,23 +400,36 @@ function runModel() {
   const totalPaid = payGCPro + payGCBiz + paySubPro;
 
   document.getElementById('growthStats').innerHTML = `
-    <div class="stat"><div class="num accent">${d.cumGC[m12]}</div><div class="lab">Contractors 12 mo</div></div>
-    <div class="stat"><div class="num accent">${d.cumGC[m24]}</div><div class="lab">Contractors 24 mo</div></div>
-    <div class="stat"><div class="num accent">${d.cumGC[m36]}</div><div class="lab">Contractors 36 mo</div></div>
-    <div class="stat"><div class="num green">${d.cumSub[m36].toLocaleString()}</div><div class="lab">Subcontractors 36 mo</div></div>
-    <div class="stat"><div class="num blue">${d.cumTotal[m36].toLocaleString()}</div><div class="lab">Total users 36 mo</div></div>`;
+    <div class="stat"><div class="num accent">${d.cumGC[m12]}</div><div class="lab">Contractors after year 1</div></div>
+    <div class="stat"><div class="num accent">${d.cumGC[m24]}</div><div class="lab">Contractors after year 2</div></div>
+    <div class="stat"><div class="num accent">${d.cumGC[m36]}</div><div class="lab">Contractors after year 3</div></div>
+    <div class="stat"><div class="num green">${d.cumSub[m36].toLocaleString()}</div><div class="lab">Subcontractors after year 3</div></div>
+    <div class="stat"><div class="num blue">${d.cumTotal[m36].toLocaleString()}</div><div class="lab">Total users after year 3</div></div>`;
+
+  // Cumulative revenue over 3 years
+  let totalRevenue = 0;
+  for (let i = 0; i < d.mrrTotal.length; i++) totalRevenue += d.mrrTotal[i];
 
   document.getElementById('revenueStats').innerHTML = `
-    <div class="stat"><div class="num accent">$${d.mrrTotal[m12].toLocaleString()}</div><div class="lab">MRR at 12 mo</div></div>
-    <div class="stat"><div class="num accent">$${d.mrrTotal[m24].toLocaleString()}</div><div class="lab">MRR at 24 mo</div></div>
-    <div class="stat"><div class="num accent">$${d.mrrTotal[m36].toLocaleString()}</div><div class="lab">MRR at 36 mo</div></div>
-    <div class="stat"><div class="num green">$${d.arr[m36].toLocaleString()}</div><div class="lab">ARR at 36 mo</div></div>`;
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m12].toLocaleString()}</div><div class="lab">Monthly revenue end of year 1</div></div>
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m24].toLocaleString()}</div><div class="lab">Monthly revenue end of year 2</div></div>
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m36].toLocaleString()}</div><div class="lab">Monthly revenue end of year 3</div></div>
+    <div class="stat"><div class="num green">$${d.arr[m36].toLocaleString()}</div><div class="lab">Yearly revenue rate (year 3)</div></div>
+    <div class="stat"><div class="num blue">$${Math.round(totalRevenue).toLocaleString()}</div><div class="lab">Total revenue earned in 3 years</div></div>`;
 
   document.getElementById('unitStats').innerHTML = `
-    <div class="stat"><div class="num accent">${totalPaid}</div><div class="lab">Paying users at 36 mo</div></div>
-    <div class="stat"><div class="num green">$${totalPaid > 0 ? Math.round(d.mrrTotal[m36]/totalPaid) : 0}</div><div class="lab">ARPU (paying users)</div></div>
-    <div class="stat"><div class="num blue">${(mult-1).toFixed(2)}</div><div class="lab">Free contractors per acquired</div></div>
-    <div class="stat"><div class="num accent">${Math.round((1-1/mult)*100)}%</div><div class="lab">CAC reduction from viral</div></div>`;
+    <div class="stat"><div class="num accent">${totalPaid}</div><div class="lab">Paying customers in year 3</div></div>
+    <div class="stat"><div class="num green">$${totalPaid > 0 ? Math.round(d.mrrTotal[m36]/totalPaid) : 0}</div><div class="lab">Revenue per paying customer (per month)</div></div>
+    <div class="stat"><div class="num blue">${(mult-1).toFixed(2)}</div><div class="lab">Free contractors from word of mouth (per paid one)</div></div>
+    <div class="stat"><div class="num accent">${Math.round((1-1/mult)*100)}%</div><div class="lab">Sales cost savings from word of mouth</div></div>`;
+
+  // Business context narrative
+  const yr3Contractors = d.cumGC[m36];
+  const yr3ARR = d.arr[m36];
+  const businessValuationLow = Math.round(yr3ARR * 4 / 1000) * 1000;
+  const businessValuationHigh = Math.round(yr3ARR * 8 / 1000) * 1000;
+  document.getElementById('businessContext').innerHTML = `
+    <div class="note" style="margin-bottom:20px"><strong>At the end of year 3 under your current settings:</strong> the business has ${yr3Contractors} contractors and ${d.cumSub[m36].toLocaleString()} subcontractors using the software, generates <strong>$${d.mrrTotal[m36].toLocaleString()}/month</strong> in subscription revenue (roughly <strong>$${yr3ARR.toLocaleString()}/year</strong>), and has collected <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total over the 3 years. A software business at this stage typically sells for 4-8x its yearly revenue, which would value it between <strong>$${businessValuationLow.toLocaleString()}</strong> and <strong>$${businessValuationHigh.toLocaleString()}</strong>.</div>`;
 }
 
 function updateChart(id, type, labels, datasets, scales) {
@@ -411,7 +468,7 @@ const helpContent = {
 <p><strong>How it affects growth:</strong> This is the "blast radius" of each contractor who joins. More subs means more chances someone triggers the reverse invite loop. It's the first multiplier in the viral chain.</p>
 <div class="example">1 contractor × <strong>10 subs</strong> = 10 people exposed to OG Build</div>
 <p><strong>What drives it:</strong> Mostly fixed by the industry. A mid-size contractor running 5-15 projects typically works with 8-15 subs. You can't change how many subs a contractor works with, but you can make sure the contractor invites ALL of them (not just a few).</p>
-<div class="leverage">Leverage: Low (industry-determined). Focus on making sure contractors invite all their subs, not just some.</div>`
+<div class="leverage">Impact on the business:Low (industry-determined). Focus on making sure contractors invite all their subs, not just some.</div>`
   },
   subSaveRate: {
     title: 'Subs Who Save Accounts',
@@ -419,7 +476,7 @@ const helpContent = {
 <p><strong>How it affects growth:</strong> This is the first filter in the viral funnel. Only saved-account subs can see the cross-GC view and trigger the reverse invite. If this is 20%, only 2 of 10 subs can ever start the flywheel. If it's 50%, it's 5 of 10.</p>
 <div class="example">10 subs × <strong>40% save rate</strong> = 4 subs who can potentially reverse-invite</div>
 <p><strong>What drives it:</strong> How compelling the "see all your work in one place" pitch is. If the cross-GC view feels like a superpower, this number goes up. If the prompt is poorly timed or the value isn't clear, it stays low.</p>
-<div class="leverage">Leverage: High. This is a UX design problem. Better prompting, better timing, clearer value proposition.</div>`
+<div class="leverage">Impact on the business:High. This is a UX design problem. Better prompting, better timing, clearer value proposition.</div>`
   },
   reverseInviteRate: {
     title: 'Saved Subs Who Reverse-Invite',
@@ -427,7 +484,7 @@ const helpContent = {
 <p><strong>How it affects growth:</strong> <strong>This is the single most important parameter in the entire model.</strong> It's where the viral loop either fires or dies. Moving this from 25% to 35% is the difference between K=0.4 and K=0.7.</p>
 <div class="example">4 saved subs × <strong>25% reverse-invite rate</strong> = 1 sub who sends invites</div>
 <p><strong>What drives it:</strong> Pure product design. How well-timed is the "Add a GC" prompt? How natural does it feel? Does the sub understand that adding their other GCs completes their own task list? The sub's motivation is selfish: "I want all my work in one place." The prompt needs to make that obvious.</p>
-<div class="leverage">Leverage: Highest. This is THE lever. Invest in prompt timing, placement, and copy here.</div>`
+<div class="leverage">Impact on the business:Highest. This is THE lever. Invest in prompt timing, placement, and copy here.</div>`
   },
   invitesPerSub: {
     title: 'Reverse Invites per Sub',
@@ -435,7 +492,7 @@ const helpContent = {
 <p><strong>How it affects growth:</strong> Each invite is another shot at converting a new contractor. 2 invites at 20% conversion = 0.4 new contractors. 3 invites at 20% = 0.6.</p>
 <div class="example">1 inviting sub × <strong>2 reverse invites</strong> = 2 contractors receive status links</div>
 <p><strong>What drives it:</strong> Bounded by reality. Most subs work with 2-5 contractors. You can't inflate this number. It's just how construction works.</p>
-<div class="leverage">Leverage: Low (industry-determined). Accept it as a given.</div>`
+<div class="leverage">Impact on the business:Low (industry-determined). Accept it as a given.</div>`
   },
   gcConvertRate: {
     title: 'Invited Contractors Who Convert',
@@ -443,7 +500,7 @@ const helpContent = {
 <p><strong>How it affects growth:</strong> This is the "close rate" of the viral loop. Remember, these contractors are tapping a link and seeing LIVE work status from a sub they actually work with. This is not a cold landing page (2-5% conversion). It's a warm, data-backed introduction.</p>
 <div class="example">2 invited contractors × <strong>20% conversion</strong> = 0.4 new contractors</div>
 <p><strong>What drives it:</strong> How good the status page is. Does it show real, current data? Does the "See all your projects" CTA feel natural? Is "free forever" believable? The contractor needs to think: "If I had this for ALL my subs..." That thought is the conversion.</p>
-<div class="leverage">Leverage: Medium. Better status page design and clearer value proposition on the signup CTA.</div>`
+<div class="leverage">Impact on the business:Medium. Better status page design and clearer value proposition on the signup CTA.</div>`
   },
   seed1: {
     title: 'Seed Contractors: Months 4-6',
@@ -471,34 +528,34 @@ const helpContent = {
   },
   gcProRate: {
     title: 'Contractor Pro Conversion',
-    body: `<p><strong>What it is:</strong> After ~3 months of using the free tier, what percentage of contractors upgrade to Pro ($79/mo)? The free tier lets them run unlimited projects and tasks. Pro adds estimates, templates, health signals, customer management, and team members.</p>
-<p><strong>How it affects growth:</strong> This is your primary revenue driver. Every percentage point here directly scales MRR.</p>
-<div class="example">100 contractors after 3 months × <strong>18% conversion</strong> = 18 paying Pro users = $1,422/mo</div>
-<p><strong>What drives it:</strong> How dependent the contractor becomes on OG Build, and how clearly the Pro features save them time/money. The upgrade trigger is usually: needing to send an estimate, wanting the health dashboard, or adding a team member.</p>
-<p><strong>Industry benchmark:</strong> B2B SaaS freemium conversion typically ranges 5-15%. Construction software with a generous free tier and sticky usage could see 15-25%.</p>`
+    body: `<p><strong>What it is:</strong> After about 3 months of using the free version, what percentage of contractors choose to upgrade to the Pro plan at $79/month? The free version lets them run unlimited projects and tasks. Pro adds estimates, templates, a dashboard that flags problem projects, customer management, and team members.</p>
+<p><strong>How it affects the business:</strong> This is the main source of revenue. Every percentage point here directly increases monthly income.</p>
+<div class="example">100 contractors after 3 months × <strong>18% upgrade</strong> = 18 paying users = $1,422/month</div>
+<p><strong>What drives it:</strong> How much the contractor depends on OG Build, and how clearly the Pro features save them time or money. The upgrade trigger is usually needing to send an estimate to a customer, wanting the dashboard that shows which projects need attention, or adding a team member.</p>
+<p><strong>Industry benchmark:</strong> Software companies with free-to-paid models typically see 5-15% of free users upgrade. Construction software with a generous free tier and daily use could see 15-25%.</p>`
   },
   gcBizRate: {
     title: 'Pro to Business Upgrade',
-    body: `<p><strong>What it is:</strong> Of contractors on the Pro plan, what percentage upgrades to Business ($199/mo) after ~6 months? Business adds unlimited team members, analytics, sub performance history, custom branding, and API access.</p>
-<p><strong>How it affects growth:</strong> Higher ARPU from your most engaged customers. These are the contractors running 10+ projects with multiple PMs who need team features and analytics.</p>
-<div class="example">18 Pro users after 6 months × <strong>12% upgrade</strong> = ~2 Business users = $398/mo additional</div>
-<p><strong>What drives it:</strong> Team size. A solo contractor stays on Pro. A contractor who hires a PM or office manager needs Business for the extra seats. Growth of the contractor's business drives this upgrade.</p>`
+    body: `<p><strong>What it is:</strong> Of contractors on the Pro plan, what percentage upgrades to Business at $199/month after about 6 months? Business adds unlimited team members, reporting, sub performance history, custom branding, and technical integrations.</p>
+<p><strong>How it affects the business:</strong> Higher revenue per customer from the most engaged contractors. These are the ones running 10+ projects with multiple project managers who need team features and reports.</p>
+<div class="example">18 Pro users after 6 months × <strong>12% upgrade</strong> = ~2 Business users = $398/month additional</div>
+<p><strong>What drives it:</strong> Team size. A solo contractor stays on Pro. A contractor who hires a project manager or office manager needs Business for the extra seats. This upgrade follows the growth of the contractor's own business.</p>`
   },
   subProRate: {
     title: 'Sub Pro Conversion',
-    body: `<p><strong>What it is:</strong> After ~3 months of using the free tier, what percentage of subcontractors (who saved accounts) upgrade to Sub Pro ($29/mo)? Sub Pro adds crew management, subcontracting tools, job history, and financial tracking.</p>
-<p><strong>How it affects growth:</strong> Secondary revenue stream. Lower price point but larger user base. Subs who manage crews and subcontract work are running businesses and will pay for tools.</p>
-<div class="example">40 saved subs after 3 months × <strong>6% conversion</strong> = ~2 paying sub users = $58/mo</div>
-<p><strong>What drives it:</strong> Whether the sub manages a crew or subcontracts work. Sole proprietors who just update their own tasks stay free forever. Subs with 3-5 crew members need the crew management feature and will pay.</p>
-<p><strong>Note:</strong> This conversion rate is intentionally low. Most subs are sole proprietors. The ones who pay are the ones running sub-businesses.</p>`
+    body: `<p><strong>What it is:</strong> After about 3 months of using the free version, what percentage of subcontractors choose to upgrade to Sub Pro at $29/month? Sub Pro adds crew management, tools for hiring their own subs, job history, and tracking money owed to them.</p>
+<p><strong>How it affects the business:</strong> A secondary source of revenue. Lower price than the contractor plans, but potentially a much larger pool of users. Subs who manage crews are running their own businesses and will pay for tools that help.</p>
+<div class="example">40 subs after 3 months × <strong>6% upgrade</strong> = ~2 paying sub users = $58/month</div>
+<p><strong>What drives it:</strong> Whether the sub manages a crew or hires other subs themselves. Solo subs who just track their own tasks stay free forever. Subs with 3-5 crew members need the crew management feature and will pay.</p>
+<p><strong>Note:</strong> This conversion rate is intentionally low. Most subs are sole proprietors and stay free. The ones who pay are running their own sub-businesses.</p>`
   },
   churn: {
-    title: 'Monthly Churn (Paid Users)',
-    body: `<p><strong>What it is:</strong> What percentage of paying users cancel their subscription each month. 4% monthly churn means ~40% annual churn (some users stay for years, some leave quickly).</p>
-<p><strong>How it affects growth:</strong> Churn is the leak in your bucket. High churn means you need to acquire faster just to stay flat. Low churn means revenue compounds. At 4% monthly churn, the average paid user stays ~25 months.</p>
-<div class="example">At 4% monthly churn: 100 paying users lose 4 per month<br>Need 4+ new conversions/month just to stay even</div>
-<p><strong>What drives it:</strong> Product stickiness. If the contractor's subs are all on OG Build and they're sending estimates through it, switching cost is high (churn drops). If they only use it for task tracking, switching is easy (churn stays high).</p>
-<p><strong>Industry benchmark:</strong> SMB SaaS monthly churn: 3-7%. Construction software with high switching costs: 2-4%. The estimates + templates features are designed to increase stickiness and reduce churn.</p>`
+    title: 'Monthly Cancellation Rate',
+    body: `<p><strong>What it is:</strong> What percentage of paying customers cancel their subscription each month. A 4% monthly rate means roughly 40% of customers cancel over the course of a year (though some stay for years and others leave quickly).</p>
+<p><strong>How it affects the business:</strong> Cancellations are the leak in the bucket. High cancellations mean you have to sign up new customers faster just to stay at the same revenue. Low cancellations mean revenue keeps growing. At 4% monthly, the average paying customer stays about 25 months.</p>
+<div class="example">At 4% monthly: 100 paying customers lose 4 per month — we need 4+ new upgrades each month just to stay flat</div>
+<p><strong>What drives it:</strong> How hard it is for a contractor to switch away. If all their subs are on OG Build and they send estimates through it, switching means re-training everyone (cancellations drop). If they only use it for basic task tracking, switching is easy (cancellations stay high).</p>
+<p><strong>Industry benchmark:</strong> Software for small businesses typically sees 3-7% monthly cancellations. Construction software with deep daily use sees 2-4%. The estimate and template features are specifically designed to make OG Build harder to leave.</p>`
   }
 };
 
