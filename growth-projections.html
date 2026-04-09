@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OG Build — Growth & Revenue Projections (36 Months)</title>
+<title>OG Build — Growth & Revenue Projections (5 Years)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
@@ -108,7 +108,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="hero">
 <div class="logo">OG<span class="dim"> Build</span></div>
 <h1>Growth & Revenue Projections</h1>
-<p>Starting from 1 contractor. 3-year financial projection you can customize.</p>
+<p>Starting from 1 contractor. 5-year financial projection you can customize.</p>
 </div>
 
 <div class="container">
@@ -117,7 +117,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <h3>The business in plain English</h3>
 <p>OG Build is software for construction. General contractors use it to manage their projects and coordinate with the subcontractors they hire. Subcontractors use it to see what work they have across all their contractors in one place. The software is free for basic use. Contractors pay when they want features like customer estimates, templates, and a dashboard showing which projects need attention.</p>
 <p>The business grows in a self-reinforcing way. Every contractor who signs up invites their subs. Those subs also work for OTHER contractors who are not on the platform yet, and they invite those contractors too. Each new contractor then invites their own subs, and the cycle continues. We do not pay for marketing. The product spreads because people use it as part of their normal workday.</p>
-<p>This page lets you test different assumptions about how fast that spread happens and what it produces in users and revenue over 3 years.</p>
+<p>This page lets you test different assumptions about how fast that spread happens and what it produces in users and revenue over 5 years.</p>
 </div>
 
 <div class="intro-block">
@@ -150,6 +150,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="param"><label>Months 7-12 <span class="help-btn" onclick="showHelp('seed2')">?</span></label><input type="range" id="p_seed2" min="2" max="20" step="1"><span class="value" id="v_seed2"></span></div>
 <div class="param"><label>Months 13-24 <span class="help-btn" onclick="showHelp('seed3')">?</span></label><input type="range" id="p_seed3" min="5" max="30" step="1"><span class="value" id="v_seed3"></span></div>
 <div class="param"><label>Months 25-36 <span class="help-btn" onclick="showHelp('seed4')">?</span></label><input type="range" id="p_seed4" min="5" max="50" step="1"><span class="value" id="v_seed4"></span></div>
+<div class="param"><label>Months 37-60 <span class="help-btn" onclick="showHelp('seed5')">?</span></label><input type="range" id="p_seed5" min="5" max="80" step="1"><span class="value" id="v_seed5"></span></div>
 
 <div class="params-divider"></div>
 <div class="params-section">Monetization</div>
@@ -178,8 +179,8 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <!-- GROWTH -->
 <div class="section">
 <div class="section-label">User Growth</div>
-<h2>How many people use the software over 3 years</h2>
-<div class="subtitle">This chart shows how the user base grows over 3 years, starting from one founding contractor. Contractors invite their subs. Those subs tell their other contractors. Those contractors sign up and invite more subs. That is the cycle that produces the curve you see below.</div>
+<h2>How many people use the software over 5 years</h2>
+<div class="subtitle">This chart shows how the user base grows over 5 years, starting from one founding contractor. Contractors invite their subs. Those subs tell their other contractors. Those contractors sign up and invite more subs. That is the cycle that produces the curve you see below.</div>
 <div class="chart-box"><h3>Total users (contractors + subs)</h3><canvas id="growthChart"></canvas></div>
 <div id="growthStats" class="stat-row"></div>
 <div class="chart-box"><h3>New contractors each month: direct outreach vs. word of mouth</h3><canvas id="acqChart"></canvas></div>
@@ -188,7 +189,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <!-- REVENUE -->
 <div class="section">
 <div class="section-label">Revenue</div>
-<h2>How much money the business makes over 3 years</h2>
+<h2>How much money the business makes over 5 years</h2>
 <div class="subtitle">OG Build is free for unlimited projects and subs, so contractors only start paying after ~3 months of using it daily. There are three paid plans: Contractor Pro at $79/month, Contractor Business at $199/month, and Sub Pro at $29/month for subcontractors who manage their own crews. The charts below show how those subscriptions add up as the user base grows.</div>
 <div class="chart-box"><h3>Monthly revenue</h3><canvas id="mrrChart"></canvas></div>
 <div id="revenueStats" class="stat-row"></div>
@@ -221,10 +222,16 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 </div>
 
 <div class="chart-box" style="padding:24px">
-<h3>Long term: years 2 and 3</h3>
+<h3>Medium term: years 2 and 3</h3>
 <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">Starting in year 2, the word-of-mouth cycle meaningfully contributes to growth on top of direct sales. Contractors who became dependent on the free tier in year 1 start upgrading to paid plans. Revenue begins to compound.</p>
 <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">By year 3, the software is becoming the default way construction work gets coordinated in its target market. Contractors who do not use it are the exception, not the rule. This is when new revenue streams become possible beyond subscriptions: a marketplace for contractors to find reliable subs, payment processing on estimates, insurance referrals, supplier partnerships. None of those are in the model above.</p>
-<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">A typical SaaS business at the 3-year mark trades at 4x to 8x annual revenue. Check the "Annual revenue rate" chart to see what that would value the business at in each scenario.</p>
+</div>
+
+<div class="chart-box" style="padding:24px">
+<h3>Long term: years 4 and 5</h3>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">Years 4 and 5 are when the compounding becomes dramatic. The user base built in years 1-3 keeps feeding the word-of-mouth cycle, and by now the business has a track record of happy customers that make outbound sales significantly easier. Most of the paying customers signed up in years 2-3 are still on the platform, and revenue has had time to accumulate.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">This is also when the second wave of revenue streams can start contributing meaningfully: the marketplace becomes valuable because there are enough contractors and subs on the platform for matching to work. Payment processing on estimates starts showing up as a revenue line. Partnerships with suppliers and insurers get easier to sign because the platform has real traction.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">A typical software business at the 5-year mark trades at 4x to 8x annual revenue. Check the "Yearly revenue rate" chart to see what that would value the business at in each scenario. The auto-calculated valuation at the top of this section uses the current scenario's year 5 revenue.</p>
 </div>
 
 <div class="chart-box" style="padding:24px">
@@ -238,7 +245,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <h3>How to compare this to real construction businesses</h3>
 <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">A mid-sized general contractor running 15-20 projects typically generates $3M-$8M in annual revenue but nets only 5-8% after costs. A software business like OG Build has totally different economics: once the software is built, each new customer costs almost nothing to serve.</p>
 <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px">That means a software business with $1M in annual revenue is worth more than a construction business with $5M in annual revenue, because the software revenue is recurring, scales without hiring, and holds its value if someone wants to buy it.</p>
-<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">The charts above show a range from a small but healthy business to a meaningful company in 3 years. The path beyond 3 years — marketplace, payment processing, insurance, partnerships — is where this becomes a large business.</p>
+<p style="font-size:13px;color:var(--text-secondary);line-height:1.7">The charts above show a range from a small but healthy business to a meaningful company in 5 years. The path beyond year 5 — marketplace, payment processing, insurance, partnerships — is where this becomes a large business.</p>
 </div>
 </div>
 
@@ -254,28 +261,28 @@ All projections are estimates. Drag the sliders to model different scenarios.
 const scenarios = {
   conservative: {
     subsPerGC: 7, subSaveRate: 25, reverseInviteRate: 15, invitesPerSub: 1, gcConvertRate: 10,
-    seed1: 2, seed2: 4, seed3: 8, seed4: 12,
+    seed1: 2, seed2: 4, seed3: 8, seed4: 12, seed5: 16,
     gcProRate: 12, gcBizRate: 6, subProRate: 3, churn: 6
   },
   moderate: {
     subsPerGC: 10, subSaveRate: 40, reverseInviteRate: 30, invitesPerSub: 2, gcConvertRate: 20,
-    seed1: 3, seed2: 8, seed3: 15, seed4: 22,
+    seed1: 3, seed2: 8, seed3: 15, seed4: 22, seed5: 30,
     gcProRate: 18, gcBizRate: 12, subProRate: 6, churn: 4
   },
   optimistic: {
     subsPerGC: 12, subSaveRate: 50, reverseInviteRate: 35, invitesPerSub: 2, gcConvertRate: 25,
-    seed1: 4, seed2: 10, seed3: 18, seed4: 28,
+    seed1: 4, seed2: 10, seed3: 18, seed4: 28, seed5: 40,
     gcProRate: 22, gcBizRate: 15, subProRate: 8, churn: 3
   }
 };
 
 const paramIds = ['subsPerGC','subSaveRate','reverseInviteRate','invitesPerSub','gcConvertRate',
-  'seed1','seed2','seed3','seed4','gcProRate','gcBizRate','subProRate','churn'];
+  'seed1','seed2','seed3','seed4','seed5','gcProRate','gcBizRate','subProRate','churn'];
 
 const paramFormats = {
   subsPerGC: v => v, subSaveRate: v => v+'%', reverseInviteRate: v => v+'%',
   invitesPerSub: v => v, gcConvertRate: v => v+'%',
-  seed1: v => v+'/mo', seed2: v => v+'/mo', seed3: v => v+'/mo', seed4: v => v+'/mo',
+  seed1: v => v+'/mo', seed2: v => v+'/mo', seed3: v => v+'/mo', seed4: v => v+'/mo', seed5: v => v+'/mo',
   gcProRate: v => v+'%', gcBizRate: v => v+'%', subProRate: v => v+'%', churn: v => v+'%'
 };
 
@@ -310,7 +317,7 @@ function runModel() {
   document.getElementById('kValue').style.color = K >= 1 ? '#2d8a52' : K >= 0.7 ? '#d49a1f' : '#c17f2f';
   document.getElementById('multValue').textContent = K < 1 ? mult.toFixed(2)+'x' : '∞ (exponential)';
 
-  const months = 36;
+  const months = 60;
   const labels = Array.from({length:months}, (_,i) => {
     const d = new Date(2026, 4+i, 1);
     return d.toLocaleDateString('en-US',{month:'short',year:'2-digit'});
@@ -321,7 +328,8 @@ function runModel() {
     if (m <= 6) return p.seed1;
     if (m <= 12) return p.seed2;
     if (m <= 24) return p.seed3;
-    return p.seed4;
+    if (m <= 36) return p.seed4;
+    return p.seed5;
   }
 
   let cumGCs=0, cumSubs=0;
@@ -396,40 +404,41 @@ function runModel() {
   ], {y:{beginAtZero:true,ticks:{callback:v=>v>=1e6?'$'+(v/1e6).toFixed(1)+'M':v>=1e3?'$'+(v/1e3).toFixed(0)+'K':'$'+v}}});
 
   // Stats
-  const m12=11, m24=23, m36=35;
+  const m12=11, m24=23, m36=35, m48=47, m60=59;
   const totalPaid = payGCPro + payGCBiz + paySubPro;
 
   document.getElementById('growthStats').innerHTML = `
     <div class="stat"><div class="num accent">${d.cumGC[m12]}</div><div class="lab">Contractors after year 1</div></div>
     <div class="stat"><div class="num accent">${d.cumGC[m24]}</div><div class="lab">Contractors after year 2</div></div>
     <div class="stat"><div class="num accent">${d.cumGC[m36]}</div><div class="lab">Contractors after year 3</div></div>
-    <div class="stat"><div class="num green">${d.cumSub[m36].toLocaleString()}</div><div class="lab">Subcontractors after year 3</div></div>
-    <div class="stat"><div class="num blue">${d.cumTotal[m36].toLocaleString()}</div><div class="lab">Total users after year 3</div></div>`;
+    <div class="stat"><div class="num accent">${d.cumGC[m60]}</div><div class="lab">Contractors after year 5</div></div>
+    <div class="stat"><div class="num green">${d.cumSub[m60].toLocaleString()}</div><div class="lab">Subcontractors after year 5</div></div>
+    <div class="stat"><div class="num blue">${d.cumTotal[m60].toLocaleString()}</div><div class="lab">Total users after year 5</div></div>`;
 
-  // Cumulative revenue over 3 years
+  // Cumulative revenue over 5 years
   let totalRevenue = 0;
   for (let i = 0; i < d.mrrTotal.length; i++) totalRevenue += d.mrrTotal[i];
 
   document.getElementById('revenueStats').innerHTML = `
     <div class="stat"><div class="num accent">$${d.mrrTotal[m12].toLocaleString()}</div><div class="lab">Monthly revenue end of year 1</div></div>
-    <div class="stat"><div class="num accent">$${d.mrrTotal[m24].toLocaleString()}</div><div class="lab">Monthly revenue end of year 2</div></div>
     <div class="stat"><div class="num accent">$${d.mrrTotal[m36].toLocaleString()}</div><div class="lab">Monthly revenue end of year 3</div></div>
-    <div class="stat"><div class="num green">$${d.arr[m36].toLocaleString()}</div><div class="lab">Yearly revenue rate (year 3)</div></div>
-    <div class="stat"><div class="num blue">$${Math.round(totalRevenue).toLocaleString()}</div><div class="lab">Total revenue earned in 3 years</div></div>`;
+    <div class="stat"><div class="num accent">$${d.mrrTotal[m60].toLocaleString()}</div><div class="lab">Monthly revenue end of year 5</div></div>
+    <div class="stat"><div class="num green">$${d.arr[m60].toLocaleString()}</div><div class="lab">Yearly revenue rate (year 5)</div></div>
+    <div class="stat"><div class="num blue">$${Math.round(totalRevenue).toLocaleString()}</div><div class="lab">Total revenue earned in 5 years</div></div>`;
 
   document.getElementById('unitStats').innerHTML = `
-    <div class="stat"><div class="num accent">${totalPaid}</div><div class="lab">Paying customers in year 3</div></div>
-    <div class="stat"><div class="num green">$${totalPaid > 0 ? Math.round(d.mrrTotal[m36]/totalPaid) : 0}</div><div class="lab">Revenue per paying customer (per month)</div></div>
+    <div class="stat"><div class="num accent">${totalPaid}</div><div class="lab">Paying customers in year 5</div></div>
+    <div class="stat"><div class="num green">$${totalPaid > 0 ? Math.round(d.mrrTotal[m60]/totalPaid) : 0}</div><div class="lab">Revenue per paying customer (per month)</div></div>
     <div class="stat"><div class="num blue">${(mult-1).toFixed(2)}</div><div class="lab">Free contractors from word of mouth (per paid one)</div></div>
     <div class="stat"><div class="num accent">${Math.round((1-1/mult)*100)}%</div><div class="lab">Sales cost savings from word of mouth</div></div>`;
 
   // Business context narrative
-  const yr3Contractors = d.cumGC[m36];
-  const yr3ARR = d.arr[m36];
-  const businessValuationLow = Math.round(yr3ARR * 4 / 1000) * 1000;
-  const businessValuationHigh = Math.round(yr3ARR * 8 / 1000) * 1000;
+  const yr5Contractors = d.cumGC[m60];
+  const yr5ARR = d.arr[m60];
+  const businessValuationLow = Math.round(yr5ARR * 4 / 1000) * 1000;
+  const businessValuationHigh = Math.round(yr5ARR * 8 / 1000) * 1000;
   document.getElementById('businessContext').innerHTML = `
-    <div class="note" style="margin-bottom:20px"><strong>At the end of year 3 under your current settings:</strong> the business has ${yr3Contractors} contractors and ${d.cumSub[m36].toLocaleString()} subcontractors using the software, generates <strong>$${d.mrrTotal[m36].toLocaleString()}/month</strong> in subscription revenue (roughly <strong>$${yr3ARR.toLocaleString()}/year</strong>), and has collected <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total over the 3 years. A software business at this stage typically sells for 4-8x its yearly revenue, which would value it between <strong>$${businessValuationLow.toLocaleString()}</strong> and <strong>$${businessValuationHigh.toLocaleString()}</strong>.</div>`;
+    <div class="note" style="margin-bottom:20px"><strong>At the end of year 5 under your current settings:</strong> the business has ${yr5Contractors} contractors and ${d.cumSub[m60].toLocaleString()} subcontractors using the software, generates <strong>$${d.mrrTotal[m60].toLocaleString()}/month</strong> in subscription revenue (roughly <strong>$${yr5ARR.toLocaleString()}/year</strong>), and has collected <strong>$${Math.round(totalRevenue).toLocaleString()}</strong> in total over the 5 years. A software business at this stage typically sells for 4-8x its yearly revenue, which would value it between <strong>$${businessValuationLow.toLocaleString()}</strong> and <strong>$${businessValuationHigh.toLocaleString()}</strong>.</div>`;
 }
 
 function updateChart(id, type, labels, datasets, scales) {
@@ -522,9 +531,15 @@ const helpContent = {
   },
   seed4: {
     title: 'Seed Contractors: Months 25-36',
-    body: `<p><strong>What it is:</strong> Monthly new contractor acquisition in year three. The brand is established in the market, the viral loop is mature, and acquisition channels are optimized.</p>
-<p><strong>How it affects growth:</strong> At this scale, even small improvements in the viral coefficient have large absolute effects because they multiply across a bigger base.</p>
-<p><strong>What drives it:</strong> Brand recognition, marketplace network effects starting to kick in, potential channel partnerships with construction supply companies or insurance providers.</p>`
+    body: `<p><strong>What it is:</strong> New contractors per month acquired through direct outreach in year three. The brand is established in the market, the word-of-mouth cycle is mature, and acquisition is working through multiple channels.</p>
+<p><strong>How it affects the business:</strong> At this scale, even small improvements in the word-of-mouth rate have large absolute effects because they multiply across a bigger base of users.</p>
+<p><strong>What drives it:</strong> Brand recognition, early signs of marketplace effects, potential partnerships with construction supply companies or insurance providers.</p>`
+  },
+  seed5: {
+    title: 'Seed Contractors: Months 37-60',
+    body: `<p><strong>What it is:</strong> New contractors per month acquired through direct outreach in years 4 and 5. By this point, the sales playbook is well-understood, partnerships are contributing, and the brand has a track record.</p>
+<p><strong>How it affects the business:</strong> Years 4 and 5 are when accumulated users, revenue, and reputation compound the hardest. Each new customer arrives on top of a platform that already has strong network effects, which makes both adoption and retention easier.</p>
+<p><strong>What drives it:</strong> Dedicated sales team, proven partnerships, strong customer references, marketplace momentum, and potential expansion into adjacent trades or geographies.</p>`
   },
   gcProRate: {
     title: 'Contractor Pro Conversion',
