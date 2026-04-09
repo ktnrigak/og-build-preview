@@ -108,7 +108,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="hero">
 <div class="logo">OG<span class="dim"> Build</span></div>
 <h1>Growth & Revenue Projections</h1>
-<p>Starting from 1 contractor. 5-year financial projection you can customize.</p>
+<p>Starting from 5 contractors. 5-year financial projection you can customize.</p>
 </div>
 
 <div class="container">
@@ -180,7 +180,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 <div class="section">
 <div class="section-label">User Growth</div>
 <h2>How many people use the software over 5 years</h2>
-<div class="subtitle">This chart shows how the user base grows over 5 years, starting from one founding contractor. Contractors invite their subs. Those subs tell their other contractors. Those contractors sign up and invite more subs. That is the cycle that produces the curve you see below.</div>
+<div class="subtitle">This chart shows how the user base grows over 5 years, starting from 5 founding contractors at month 1. Contractors invite their subs. Those subs tell their other contractors. Those contractors sign up and invite more subs. That is the cycle that produces the curve you see below.</div>
 <div class="chart-box"><h3>Total users (contractors + subs)</h3><canvas id="growthChart"></canvas></div>
 <div id="growthStats" class="stat-row"></div>
 <div class="chart-box"><h3>New contractors each month: direct outreach vs. word of mouth</h3><canvas id="acqChart"></canvas></div>
@@ -324,7 +324,7 @@ function runModel() {
   });
 
   function seedGCs(m) {
-    if (m <= 3) return m === 1 ? 1 : 0;
+    if (m <= 3) return m === 1 ? 5 : 0;
     if (m <= 6) return p.seed1;
     if (m <= 12) return p.seed2;
     if (m <= 24) return p.seed3;
